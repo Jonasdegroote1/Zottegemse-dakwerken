@@ -1,0 +1,5 @@
+name: 'Information Block'
+type: module
+description: 'Provides a custom block with title, description, and a structured 50/50 layout.'
+package: Custom
+core_version_requirement: ^10

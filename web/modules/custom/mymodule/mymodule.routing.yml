@@ -1,0 +1,17 @@
+mymodule.simplecontent:
+  path: '/mycustompath'
+  defaults:
+    _controller: '\Drupal\mymodule\Controller\FirstController::simpleContent'
+    _title: 'My Module'
+  requirements:
+    _permission: 'access content'
+
+mymodule.variablecontent:
+  path: '/mycustompath/{name}'
+  defaults:
+    _controller: '\Drupal\mymodule\Controller\FirstController::variableContent'
+    _title: 'dynamic'
+  requirements:
+    _permission: 'access content'
+
+

@@ -1,0 +1,5 @@
+name: 'Card Block'
+type: module
+description: 'Provides a card block with an image, title, description, and a button.'
+core_version_requirement: ^10
+package: Custom

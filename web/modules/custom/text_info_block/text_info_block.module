@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function text_info_block_theme() {
+    return [
+        'text_info_block' => [
+            'variables' => [
+                'title' => '',
+                'description' => '',
+            ],
+            'template' => 'text-info-block',
+        ],
+    ];
+}

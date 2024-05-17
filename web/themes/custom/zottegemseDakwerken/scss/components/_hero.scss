@@ -1,0 +1,46 @@
+.hero-block {
+  height: calc(100vh - 5rem); /* corrected 100dvh to 100vh */
+  background-size: cover;
+  background-position: center;
+  color: map-get($blue, 50 );
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  position: absolute;
+  left: 10%;
+  bottom: 50%;
+  width: 40rem;
+  text-align: left;
+  transform: translateY(50%); /* Adjust for vertical centering */
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-content {
+    left: 5%;  /* Less offset for smaller screens */
+    width: 90%; /* More relative width for better fitting */
+    font-size: 90%; /* Slightly smaller text */
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem; /* Smaller font size for the title */
+  }
+
+  .hero-content p {
+    font-size: 1.2rem; /* Smaller font size for the paragraph */
+  }
+}

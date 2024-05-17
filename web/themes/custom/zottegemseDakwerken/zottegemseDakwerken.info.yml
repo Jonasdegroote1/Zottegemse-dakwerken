@@ -1,0 +1,18 @@
+name: Zottegemse Dakwerken
+type: theme
+description: "a custom theme for Zottegemse Dakwerken."
+core_version_requirement: ^9 || ^10
+core: 9.x
+base theme: classy
+logo: logo.jpg
+regions:
+  header: Header
+  navigation: Navigation
+  content: Content
+  footer: Footer
+  page_top: Page top
+  page_bottom: Page bottom
+
+libraries:
+  - zottegemseDakwerken/global-css
+  - simplesmart/pacifico

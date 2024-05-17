@@ -1,0 +1,5 @@
+name: Hero Block
+type: module
+description: Provides a custom hero block.
+core_version_requirement: ^10
+package: Custom

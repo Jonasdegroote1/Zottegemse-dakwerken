@@ -1,0 +1,5 @@
+name: 'Text Info Block'
+type: module
+description: 'Provides a custom block with title and description.'
+package: Custom
+core_version_requirement: ^10

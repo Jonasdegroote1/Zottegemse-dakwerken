@@ -1,0 +1,20 @@
+.block-inline-blockimage-gallery {
+  padding: 1rem;
+  color: map-get($blue, 800);
+
+  h2{
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 48rem){
+    padding: 3rem;
+  }
+}
+.field__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 -1rem;
+  gap: 2rem;
+}

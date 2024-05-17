@@ -1,0 +1,5 @@
+name: 'Icon Card Block'
+type: module
+description: 'Provides a customizable icon card block.'
+package: Custom
+core_version_requirement: ^10

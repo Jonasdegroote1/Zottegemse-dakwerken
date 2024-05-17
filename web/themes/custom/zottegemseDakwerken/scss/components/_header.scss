@@ -1,0 +1,74 @@
+header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+}
+
+.menu-logo, .menu {
+  display: flex;
+  align-items: center; 
+}
+
+.menu-logo {
+  margin-right: 20px; 
+}
+
+.menu-logo img {
+  height: 50px; 
+}
+
+.menu {
+  list-style: none;
+  padding: 0; 
+  margin: 0 !important; 
+  height: 3rem;
+  background-color: map-get($blue, 900);
+
+  a {
+    color: map-get($blue, 100);
+    text-decoration: none;
+    font-size: .75rem;
+  }
+
+  .is-active {
+    color: map-get($blue, 200) !important;
+    text-decoration: underline;
+  }
+}
+
+.menu-item {
+  padding: 0 1rem; 
+}
+
+.menu-item--active-trail a {
+  color: map-get($blue, 200); 
+  font-weight: bold;
+}
+
+.menu-item--expanded .menu {
+  display: none;
+}
+
+.menu-item--expanded:hover .menu {
+  display: block; 
+  position: absolute; 
+  background-color: map-get($blue, 900); 
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
+  z-index: 1000;
+  height: auto;
+
+  .menu-item:hover {
+    background-color:map-get($blue, 700) ; 
+  }
+}
+
+.menu-item--expanded .menu-item {
+  padding: 10px 20px; 
+}
+
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
