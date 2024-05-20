@@ -3,3 +3,5 @@ global-css:
   css:
     theme:
       css/styles.css: {}
+  js:
+    js/components/accordion.js: {}

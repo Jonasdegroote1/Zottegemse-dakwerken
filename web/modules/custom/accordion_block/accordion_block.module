@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function accordion_block_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block) {
+  if ($block->getBaseId() == 'accordion_block') {
+    $build['#attached']['library'][] = 'accordion_block/accordion';
+  }
+}

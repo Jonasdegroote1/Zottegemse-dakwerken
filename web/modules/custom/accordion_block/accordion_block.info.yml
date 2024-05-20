@@ -1,0 +1,11 @@
+name: 'Accordion Block'
+type: module
+description: 'Provides an accordion block with custom CSS and JavaScript.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:block
+  - core/jquery
+  - core/drupal
+  - core/drupal.once
+

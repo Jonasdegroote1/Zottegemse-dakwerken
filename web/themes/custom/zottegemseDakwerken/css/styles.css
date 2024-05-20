@@ -302,4 +302,23 @@ header {
   gap: 2rem;
 }
 
+.accordion .accordion-header {
+  background-color: #eee;
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-top: -1px; /* Prevent double borders */
+}
+
+.accordion .accordion-content {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.accordion .accordion-header.active + .accordion-content {
+  display: block;
+}
+
 /*# sourceMappingURL=styles.css.map */
