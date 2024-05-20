@@ -26,7 +26,9 @@
         "drupal/layout_builder_component_attributes": "^2.1",
         "drupal/layout_builder_styles": "^2.0",
         "drupal/layout_custom_section_classes": "^1.0",
+        "drupal/maillog": "^1.1",
         "drupal/pathauto": "^1.12",
+        "drupal/smtp": "^1.2",
         "drupal/tailwindcss": "^5.0@alpha",
         "drupal/webform": "^6.2",
         "drush/drush": "^12.5"
