@@ -1,0 +1,9 @@
+name: 'History Block'
+type: module
+description: 'Provides a custom block with an icon, title, and description.'
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:block
+  - drupal:media
+  - drupal:file
