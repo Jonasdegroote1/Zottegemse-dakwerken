@@ -349,4 +349,39 @@ a {
   background-color: #0057aa; /* Optional: darker shade on hover */
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.form--wrapper label {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #006ed2;
+}
+
+.form--wrapper input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid #006ed2;
+}
+
+.form--wrapper textarea {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid #006ed2;
+}
+
+.form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible {
+  border-bottom: 1px solid #073e73;
+}
+
 /*# sourceMappingURL=styles.css.map */

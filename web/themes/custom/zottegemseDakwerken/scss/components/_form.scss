@@ -1,0 +1,34 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.form--wrapper label {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: map-get($blue, 600 );
+}
+
+.form--wrapper input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid map-get($blue, 600 );
+}
+
+.form--wrapper textarea {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid map-get($blue, 600 );
+}
+
+.form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible{
+  border-bottom: 1px solid map-get($blue, 900 );
+}
