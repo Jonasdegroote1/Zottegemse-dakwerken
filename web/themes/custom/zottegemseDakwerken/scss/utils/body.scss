@@ -2,3 +2,7 @@ body {
   font-family : "Roboto", sans-serif;
   background-color: map-get($blue, 50);
 }
+
+h2 {
+  color: map-get($blue, 800);
+}

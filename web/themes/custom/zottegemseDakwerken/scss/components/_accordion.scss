@@ -1,18 +1,39 @@
 .accordion .accordion-header {
-  background-color: #eee;
   cursor: pointer;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-top: -1px; /* Prevent double borders */
+  padding: 1rem;
+  border-bottom: 1px solid map-get($blue, 500); 
+  color: map-get($blue, 500); 
+  margin-top: -1px; 
+
+  &.active {
+    background-color: lighten(map-get($blue, 500), 40%); 
+  }
 }
 
 .accordion .accordion-content {
   display: none;
   padding: 10px;
-  border: 1px solid #ccc;
   border-top: none;
 }
 
 .accordion .accordion-header.active + .accordion-content {
   display: block;
+}
+
+/* accordion_block/css/accordion_block.css */
+
+.accordion-button {
+  padding: 10px 20px;
+  background-color: #006ed2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.accordion-button:hover {
+  background-color: #0057aa; /* Optional: darker shade on hover */
 }
