@@ -418,4 +418,18 @@ form {
   font-weight: 400;
 }
 
+.job-offer-block {
+  background-color: #deeeff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-bottom: 1px solid #028df5;
+}
+
+.job-offer-block--top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /*# sourceMappingURL=styles.css.map */

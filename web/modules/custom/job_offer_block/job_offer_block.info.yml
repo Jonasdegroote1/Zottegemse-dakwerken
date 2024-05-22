@@ -1,0 +1,7 @@
+name: 'Job Offer Block'
+type: module
+description: 'Provides a block for job offers with title, location, description, and email button.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:block

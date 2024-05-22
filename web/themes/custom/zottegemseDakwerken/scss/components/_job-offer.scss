@@ -1,0 +1,13 @@
+.job-offer-block {
+  background-color: map-get( $blue , 100 );
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border-bottom: 1px solid map-get( $blue , 500 );
+}
+
+.job-offer-block--top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
