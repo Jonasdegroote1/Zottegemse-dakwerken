@@ -7,7 +7,7 @@ h2 {
   color: #004786;
 }
 
-.section-blue {
+.section-blue, .pin-spacer {
   background-color: #006ed2;
 }
 
@@ -19,7 +19,7 @@ h2 {
 .section--diensten {
   display: flex;
   gap: 2rem;
-  overflow-x: auto;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 

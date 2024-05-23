@@ -6,14 +6,24 @@ const horizontalScroll = () => {
         const innerElements = horizontalScrollContainer.querySelectorAll(".block-card-block");
 
         gsap.to(innerElements, {
-            x: window.innerWidth - horizontalScrollContainer.scrollWidth -horizontalScrollContainer.offsetWidth,
+            x: window.innerWidth - horizontalScrollContainer.scrollWidth - horizontalScrollContainer.offsetWidth,
             scrollTrigger: {
                 trigger: trigger,
-                start: "top 10%",
+                start: "top 30%",
                 end: "bottom top",
                 scrub: true,
                 markers: true,
-                pin : true,
+                pin: true,
+                pinSpacing: true, // Enable pinSpacing
+                onUpdate: (self) => {
+                    const sectionWidth = horizontalScrollContainer.offsetWidth;
+                    const containerWidth = window.innerWidth;
+                    const padding = (containerWidth - sectionWidth) / 2;
+
+                    // Center the pinned section
+                    horizontalScrollContainer.style.marginLeft = padding + "px";
+                    horizontalScrollContainer.style.marginRight = padding + "px";
+                }
             }
         });
     });

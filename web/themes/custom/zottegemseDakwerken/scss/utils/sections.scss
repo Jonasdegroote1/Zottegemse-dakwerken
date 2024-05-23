@@ -1,4 +1,4 @@
-.section-blue {
+.section-blue, .pin-spacer {
   background-color: map-get($blue, 600 );
 }
 
@@ -10,7 +10,7 @@
 .section--diensten {
     display: flex;
     gap: 2rem;
-    overflow-x: auto;
+    overflow-x: hidden;
     white-space: nowrap;
 }
 
