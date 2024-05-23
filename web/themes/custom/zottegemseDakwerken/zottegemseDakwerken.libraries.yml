@@ -1,7 +1,17 @@
 global-css:
-  version: Version
+  version: 1.x
   css:
     theme:
       css/styles.css: {}
+
+global-js:
+  version: 1.x
   js:
     js/components/accordion.js: {}
+    js/animations/fade-in.js: {}
+
+gsap:
+  version: 3.x
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js: { type: external, minified: true }
+    https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js: { type: external, minified: true }

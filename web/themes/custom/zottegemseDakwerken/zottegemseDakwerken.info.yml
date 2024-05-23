@@ -15,4 +15,5 @@ regions:
 
 libraries:
   - zottegemseDakwerken/global-css
-  - simplesmart/pacifico
+  - zottegemseDakwerken/gsap
+  - zottegemseDakwerken/global-js
