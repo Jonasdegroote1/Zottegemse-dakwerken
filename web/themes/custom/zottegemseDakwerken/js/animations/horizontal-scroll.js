@@ -5,24 +5,17 @@ const horizontalScroll = () => {
         const horizontalScrollContainer = trigger.querySelector("[data-child='horizontal-scroll']");
         const innerElements = horizontalScrollContainer.querySelectorAll(".block-card-block");
 
+        const totalScrollDistance = horizontalScrollContainer.scrollWidth - horizontalScrollContainer.offsetWidth;
+
         gsap.to(innerElements, {
             x: window.innerWidth - horizontalScrollContainer.scrollWidth - horizontalScrollContainer.offsetWidth,
             scrollTrigger: {
                 trigger: trigger,
                 start: "top 30%",
-                end: "bottom top",
+                end: () => "+=" + totalScrollDistance, // Trigger at the end of the scroll container
                 scrub: true,
                 pin: true,
                 pinSpacing: true, // Enable pinSpacing
-                onUpdate: (self) => {
-                    const sectionWidth = horizontalScrollContainer.offsetWidth;
-                    const containerWidth = window.innerWidth;
-                    const padding = (containerWidth - sectionWidth) / 2;
-
-                    // Center the pinned section
-                    horizontalScrollContainer.style.marginLeft = padding + "px";
-                    horizontalScrollContainer.style.marginRight = padding + "px";
-                }
             }
         });
     });
