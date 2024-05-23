@@ -9,6 +9,7 @@ global-js:
   js:
     js/components/accordion.js: {}
     js/animations/fade-in.js: {}
+    js/animations/horizontal-scroll.js: {}
 
 gsap:
   version: 3.x

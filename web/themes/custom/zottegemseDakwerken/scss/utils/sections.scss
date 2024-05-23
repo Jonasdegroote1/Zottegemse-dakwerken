@@ -6,3 +6,11 @@
   padding: 2rem;
   margin: 2rem 0;
 }
+
+.section--diensten {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+

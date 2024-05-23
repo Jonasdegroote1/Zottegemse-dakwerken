@@ -1,9 +1,14 @@
+.block-card-block {
+  flex: 0 0 30%;
+}
+
 a {
   text-decoration: none;
 }
 
 .card {
   background-color: map-get($blue, 50);
+  width: 100%;
   border-radius: 0.25rem;
   margin: 1rem;
   min-height: 25rem ;
