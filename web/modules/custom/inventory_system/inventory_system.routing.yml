@@ -24,3 +24,14 @@ inventory_system.delete_item:
     node: \d+
   options:
     _access_check: TRUE
+
+inventory_system.edit_form:
+  path: '/admin/inventory/{node}/edit'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\InventoryEditForm'
+    _title: 'Edit Inventory Item'
+  requirements:
+    _permission: 'administer site configuration'
+    node: \d+
+  options:
+    _access_check: TRUE
