@@ -1,0 +1,13 @@
+inventory_system.add_form:
+  title: 'Add Inventory Item'
+  description: 'Add a new inventory item.'
+  parent: system.admin_content
+  route_name: inventory_system.add_form
+  weight: 0
+
+inventory_system.list:
+  title: 'Inventory List'
+  description: 'List all inventory items.'
+  parent: system.admin_content
+  route_name: inventory_system.list
+  weight: 1

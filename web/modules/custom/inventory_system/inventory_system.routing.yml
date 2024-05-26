@@ -1,0 +1,26 @@
+inventory_system.add_form:
+  path: '/admin/inventory/add'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\InventoryForm'
+    _title: 'Add Inventory Item'
+  requirements:
+    _permission: 'administer site configuration'
+
+inventory_system.list:
+  path: '/admin/inventory/list'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\InventoryController::listItems'
+    _title: 'Inventory List'
+  requirements:
+    _permission: 'administer site configuration'
+
+inventory_system.delete_item:
+  path: '/admin/inventory/{node}/delete'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\InventoryController::deleteItem'
+    _title: 'Delete Inventory Item'
+  requirements:
+    _permission: 'administer site configuration'
+    node: \d+
+  options:
+    _access_check: TRUE

@@ -1,0 +1,7 @@
+name: 'Inventory System'
+type: module
+description: 'A custom module to manage inventory.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:node
