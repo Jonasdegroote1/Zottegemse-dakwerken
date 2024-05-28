@@ -51,3 +51,15 @@ inventory_system.category_list:
     _title: 'Category List'
   requirements:
     _permission: 'administer site configuration'
+
+inventory_system.category_delete:
+  path: '/admin/inventory/category/delete/{tid}'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\CategoryController::deleteCategory'
+    _title: 'Delete Category'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    parameters:
+      tid:
+        type: 'integer'
