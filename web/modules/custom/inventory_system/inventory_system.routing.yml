@@ -43,3 +43,11 @@ inventory_system.category_add_form:
     _title: 'Add Category'
   requirements:
     _permission: 'administer site configuration'
+
+inventory_system.category_list:
+  path: '/admin/inventory/category/list'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\CategoryController::listItems'
+    _title: 'Category List'
+  requirements:
+    _permission: 'administer site configuration'

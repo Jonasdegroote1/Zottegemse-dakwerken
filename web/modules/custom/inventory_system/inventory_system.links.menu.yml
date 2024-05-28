@@ -15,6 +15,13 @@ inventory_system.list:
 inventory_system.add_category:
   title: 'Add Category'
   description: 'Add a new category.'
-  parent: system.admin_content
+  parent: inventory_system.category_menu
   route_name: inventory_system.category_add_form
-  weight: 2
+  weight: 0
+
+inventory_system.list_categories:
+  title: 'Category List'
+  description: 'List all categories.'
+  parent: inventory_system.category_menu
+  route_name: inventory_system.category_list
+  weight: 1
