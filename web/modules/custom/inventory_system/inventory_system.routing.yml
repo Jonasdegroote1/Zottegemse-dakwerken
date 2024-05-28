@@ -63,3 +63,15 @@ inventory_system.category_delete:
     parameters:
       tid:
         type: 'integer'
+
+inventory_system.category_edit_form:
+  path: '/admin/inventory/category/edit/{tid}'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\CategoryEditForm'
+    _title: 'Edit Category'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    parameters:
+      tid:
+        type: 'integer'

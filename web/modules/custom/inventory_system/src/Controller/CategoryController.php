@@ -50,6 +50,9 @@ class CategoryController extends ControllerBase {
 
     $rows = [];
     foreach ($terms as $term) {
+      $editUrl = Url::fromRoute('inventory_system.category_edit_form', ['tid' => $term->id()]);
+      $editLink = Link::fromTextAndUrl($this->t('Edit'), $editUrl);
+      
       $deleteUrl = Url::fromRoute('inventory_system.category_delete', ['tid' => $term->id()]);
       $deleteLink = Link::fromTextAndUrl($this->t('Delete'), $deleteUrl);
 
@@ -57,6 +60,7 @@ class CategoryController extends ControllerBase {
         'data' => [
           $term->getName(),
           $term->getDescription(),
+          $editLink->toString(),
           $deleteLink->toString(),
         ],
       ];
@@ -65,7 +69,8 @@ class CategoryController extends ControllerBase {
     $header = [
       $this->t('Category Name'),
       $this->t('Description'),
-      $this->t('Actions'),
+      $this->t('Edit'),
+      $this->t('Delete'),
     ];
 
     $build = [
