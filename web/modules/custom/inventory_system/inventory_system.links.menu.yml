@@ -11,3 +11,10 @@ inventory_system.list:
   parent: system.admin_content
   route_name: inventory_system.list
   weight: 1
+
+inventory_system.add_category:
+  title: 'Add Category'
+  description: 'Add a new category.'
+  parent: system.admin_content
+  route_name: inventory_system.category_add_form
+  weight: 2
