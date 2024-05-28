@@ -5,6 +5,7 @@ namespace Drupal\inventory_system\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\taxonomy\Entity\Term;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class CategoryForm extends FormBase {
   public function getFormId() {
@@ -42,5 +43,8 @@ class CategoryForm extends FormBase {
     $term->save();
 
     \Drupal::messenger()->addMessage($this->t('The category has been added.'));
+
+    // Redirect to the category list page after saving changes.
+    $form_state->setRedirect('inventory_system.category_list');
   }
 }
