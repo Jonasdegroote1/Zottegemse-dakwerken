@@ -1,27 +1,34 @@
-inventory_system.add_form:
+inventory_system.add_inventory:
   title: 'Add Inventory Item'
   description: 'Add a new inventory item.'
-  parent: system.admin_content
   route_name: inventory_system.add_form
+  parent: system.admin_content
   weight: 0
 
-inventory_system.list:
+inventory_system.list_inventory:
   title: 'Inventory List'
   description: 'List all inventory items.'
-  parent: system.admin_content
   route_name: inventory_system.list
+  parent: system.admin_content
   weight: 1
+
+inventory_system.category_menu:
+  title: 'Category Menu'
+  description: 'Manage categories.'
+  route_name: inventory_system.category_list
+  parent: system.admin_content
+  weight: 2
 
 inventory_system.add_category:
   title: 'Add Category'
   description: 'Add a new category.'
-  parent: inventory_system.category_menu
   route_name: inventory_system.category_add_form
+  parent: inventory_system.category_menu
   weight: 0
 
 inventory_system.list_categories:
   title: 'Category List'
   description: 'List all categories.'
-  parent: inventory_system.category_menu
   route_name: inventory_system.category_list
+  parent: inventory_system.category_menu
   weight: 1
