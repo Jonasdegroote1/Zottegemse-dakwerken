@@ -5,7 +5,5 @@ core_version_requirement: ^10
 package: Custom
 dependencies:
   - drupal:block
-  - core/jquery
-  - core/drupal
-  - core/drupal.once
+
 

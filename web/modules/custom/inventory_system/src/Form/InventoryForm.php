@@ -73,12 +73,6 @@ class InventoryForm extends FormBase {
       '#title' => $this->t('Location'),
       '#required' => TRUE,
     ];
-    $form['price'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Price'),
-      '#step' => '0.01',
-      '#required' => TRUE,
-    ];
     $form['category'] = [
       '#type' => 'select',
       '#title' => $this->t('Category'),
@@ -101,7 +95,6 @@ class InventoryForm extends FormBase {
       $description = $form_state->getValue('description');
       $quantity = $form_state->getValue('quantity');
       $location = $form_state->getValue('location');
-      $price = $form_state->getValue('price');
       $category = $form_state->getValue('category');
 
       // Insert data into 'items' table
@@ -112,7 +105,6 @@ class InventoryForm extends FormBase {
           'description' => $description,
           'quantity' => $quantity,
           'location' => $location,
-          'price' => $price,
           'category_id' => $category,
         ])
         ->execute();

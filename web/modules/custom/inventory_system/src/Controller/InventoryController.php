@@ -47,7 +47,7 @@ class InventoryController extends ControllerBase {
   public function listItems() {
     // Fetch items from the database table.
     $query = $this->database->select('items', 'i')
-      ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price', 'category_id'])
+      ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'category_id'])
       ->orderBy('category_id');
 
     // Execute the query and fetch results
@@ -67,7 +67,6 @@ class InventoryController extends ControllerBase {
         'description' => $item->description,
         'quantity' => $item->quantity,
         'location' => $item->location,
-        'price' => $item->price,
         // Include other fields as needed
       ];
     }
@@ -95,7 +94,6 @@ class InventoryController extends ControllerBase {
           'description' => $item['description'],
           'quantity' => $item['quantity'],
           'location' => $item['location'],
-          'price' => $item['price'],
           // Include other fields as needed
           'operations' => [
             'data' => [
@@ -147,7 +145,6 @@ class InventoryController extends ControllerBase {
       'description' => $this->t('Description'),
       'quantity' => $this->t('Quantity'),
       'location' => $this->t('Location'),
-      'price' => $this->t('Price'),
       'operations' => $this->t('Operations'),
       // Include other fields as needed
     ];

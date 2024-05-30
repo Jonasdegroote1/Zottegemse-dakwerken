@@ -49,7 +49,7 @@ class InventoryEditForm extends FormBase {
     if ($item_id) {
       // Fetch item data from the database.
       $item = $this->database->select('items', 'i')
-        ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price', 'category_id'])
+        ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'category_id'])
         ->condition('item_id', $item_id)
         ->execute()
         ->fetchAssoc();
@@ -86,14 +86,6 @@ class InventoryEditForm extends FormBase {
           '#type' => 'textfield',
           '#title' => $this->t('Location'),
           '#default_value' => $item['location'],
-          '#required' => TRUE,
-        ];
-
-        $form['price'] = [
-          '#type' => 'number',
-          '#title' => $this->t('Price'),
-          '#default_value' => $item['price'],
-          '#step' => '0.01',
           '#required' => TRUE,
         ];
 
@@ -147,7 +139,6 @@ class InventoryEditForm extends FormBase {
         'description' => $form_state->getValue('description'),
         'quantity' => $form_state->getValue('quantity'),
         'location' => $form_state->getValue('location'),
-        'price' => $form_state->getValue('price'),
         'category_id' => $form_state->getValue('category'),
       ])
       ->condition('item_id', $item_id)

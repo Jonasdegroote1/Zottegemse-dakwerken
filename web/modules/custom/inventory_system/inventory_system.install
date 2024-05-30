@@ -1,148 +1,143 @@
 <?php
+
+use Drupal\Core\Database\Database;
+
 /**
- * Implements hook_schema().
+ * Implements hook_install().
  */
-function inventory_system_schema() {
-  $schema['categories'] = [
-    'description' => 'Stores category data.',
-    'fields' => [
-      'category_id' => [
-        'description' => 'The primary identifier for a category.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
+function inventory_system_install() {
+  // Create the categories table.
+  if (!Database::getConnection()->schema()->tableExists('categories')) {
+    $categorySchema = [
+      'fields' => [
+        'category_id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'The auto-incremented ID for a category.',
+        ],
+        'title' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'description' => 'The title of the category.',
+        ],
       ],
-      'title' => [
-        'description' => 'The name of the category.',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ],
-    ],
-    'primary key' => ['category_id'],
-  ];
+      'primary key' => ['category_id'],
+    ];
 
-  $schema['items'] = [
-    'description' => 'Stores item data.',
-    'fields' => [
-      'item_id' => [
-        'description' => 'The primary identifier for an item.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-      'title' => [
-        'description' => 'The title of the item.',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-      ],
-      'description' => [
-        'description' => 'A description of the item.',
-        'type' => 'text',
-        'not null' => FALSE,
-      ],
-      'quantity' => [
-        'description' => 'The quantity of the item available.',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ],
-      'location' => [
-        'description' => 'The location of the item.',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => FALSE,
-      ],
-      'price' => [
-        'description' => 'The price of the item.',
-        'type' => 'decimal',
-        'precision' => 10,
-        'scale' => 2,
-        'not null' => TRUE,
-        'default' => '0.00',
-      ],
-    ],
-    'primary key' => ['item_id'],
-  ];
+    // Create the categories table.
+    Database::getConnection()->schema()->createTable('categories', $categorySchema);
+  }
 
-  $schema['vehicles'] = [
-    'description' => 'Stores vehicle data.',
-    'fields' => [
-      'vehicle_id' => [
-        'description' => 'The primary identifier for a vehicle.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
+  // Create the items table.
+  if (!Database::getConnection()->schema()->tableExists('items')) {
+    $itemSchema = [
+      'fields' => [
+        'item_id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'The auto-incremented ID for an inventory item.',
+        ],
+        'item_name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'description' => 'The name of the inventory item.',
+        ],
+        'description' => [
+          'type' => 'text',
+          'size' => 'big',
+          'not null' => FALSE,
+          'description' => 'Description of the inventory item.',
+        ],
+        'quantity' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'The quantity of the inventory item.',
+        ],
+        'location' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+          'description' => 'The location of the inventory item.',
+        ],
+        'category_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The auto-incremented ID for the category of the inventory item.',
+        ],
       ],
-      'name' => [
-        'description' => 'The name of the vehicle.',
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
+      'primary key' => ['item_id'],
+      'foreign keys' => [
+        'category_id' => [
+          'table' => 'categories',
+          'columns' => ['category_id'],
+        ],
       ],
-    ],
-    'primary key' => ['vehicle_id'],
-  ];
+    ];
 
-  $schema['item_vehicle'] = [
-    'description' => 'Associates items with vehicles.',
-    'fields' => [
-      'item_vehicle_id' => [
-        'description' => 'The primary identifier for an item-vehicle association.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-      'item_id' => [
-        'description' => 'The identifier for an item.',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-      'vehicle_id' => [
-        'description' => 'The identifier for a vehicle.',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-    ],
-    'primary key' => ['item_vehicle_id'],
-    'foreign keys' => [
-      'item_id' => ['items', 'item_id'],
-      'vehicle_id' => ['vehicles', 'vehicle_id'],
-    ],
-  ];
+    // Create the items table.
+    Database::getConnection()->schema()->createTable('items', $itemSchema);
+  }
 
-  $schema['category_item'] = [
-    'description' => 'Associates items with categories.',
-    'fields' => [
-      'category_item_id' => [
-        'description' => 'The primary identifier for a category-item association.',
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
+  // Create the vehicles table.
+  if (!Database::getConnection()->schema()->tableExists('vehicles')) {
+    $vehicleSchema = [
+      'fields' => [
+        'vehicle_id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'The auto-incremented ID for a vehicle.',
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'description' => 'The name of the vehicle.',
+        ],
       ],
-      'item_id' => [
-        'description' => 'The identifier for an item.',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-      'category_id' => [
-        'description' => 'The identifier for a category.',
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ],
-    ],
-    'primary key' => ['category_item_id'],
-    'foreign keys' => [
-      'item_id' => ['items', 'item_id'],
-      'category_id' => ['categories', 'category_id'],
-    ],
-  ];
+      'primary key' => ['vehicle_id'],
+    ];
 
-  return $schema;
+    // Create the vehicles table.
+    Database::getConnection()->schema()->createTable('vehicles', $vehicleSchema);
+  }
+
+  // Create the item_vehicle table.
+  if (!Database::getConnection()->schema()->tableExists('item_vehicle')) {
+    $itemVehicleSchema = [
+      'fields' => [
+        'item_vehicle_id' => [
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'The auto-incremented ID for an item-vehicle relation.',
+        ],
+        'item_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The ID of the inventory item.',
+        ],
+        'vehicle_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'The ID of the vehicle.',
+        ],
+      ],
+      'primary key' => ['item_vehicle_id'],
+      'foreign keys' => [
+        'item_id' => [
+          'table' => 'items',
+          'columns' => ['item_id'],
+        ],
+        'vehicle_id' => [
+          'table' => 'vehicles',
+          'columns' => ['vehicle_id'],
+        ],
+      ],
+    ];
+
+    // Create the item_vehicle table.
+    Database::getConnection()->schema()->createTable('item_vehicle', $itemVehicleSchema);
+  }
 }
