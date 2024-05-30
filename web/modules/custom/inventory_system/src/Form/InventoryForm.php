@@ -4,7 +4,6 @@ namespace Drupal\inventory_system\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\Entity\Node;
 
 class InventoryForm extends FormBase {
   public function getFormId() {
@@ -46,23 +45,24 @@ class InventoryForm extends FormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Get form values
     $item_name = $form_state->getValue('item_name');
     $description = $form_state->getValue('description');
     $quantity = $form_state->getValue('quantity');
     $location = $form_state->getValue('location');
     $price = $form_state->getValue('price');
 
-    // Save the inventory item as a node
-    $node = Node::create([
-      'type' => 'inventory_item',
-      'title' => $item_name,
-      'field_item_name' => $item_name,
-      'field_description' => $description,
-      'field_quantity' => $quantity,
-      'field_location' => $location,
-      'field_price' => $price,
-    ]);
-    $node->save();
+    // Insert data into custom database table
+    $connection = \Drupal::database();
+    $connection->insert('items')
+      ->fields([
+        'title' => $item_name,
+        'description' => $description,
+        'quantity' => $quantity,
+        'location' => $location,
+        'price' => $price,
+      ])
+      ->execute();
 
     \Drupal::messenger()->addMessage($this->t('Inventory item added successfully.'));
 

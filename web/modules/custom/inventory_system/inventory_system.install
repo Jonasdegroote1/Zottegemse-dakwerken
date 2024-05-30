@@ -1,0 +1,148 @@
+<?php
+/**
+ * Implements hook_schema().
+ */
+function inventory_system_schema() {
+  $schema['categories'] = [
+    'description' => 'Stores category data.',
+    'fields' => [
+      'category_id' => [
+        'description' => 'The primary identifier for a category.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'title' => [
+        'description' => 'The name of the category.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['category_id'],
+  ];
+
+  $schema['items'] = [
+    'description' => 'Stores item data.',
+    'fields' => [
+      'item_id' => [
+        'description' => 'The primary identifier for an item.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'title' => [
+        'description' => 'The title of the item.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'description' => [
+        'description' => 'A description of the item.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'quantity' => [
+        'description' => 'The quantity of the item available.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'location' => [
+        'description' => 'The location of the item.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'price' => [
+        'description' => 'The price of the item.',
+        'type' => 'decimal',
+        'precision' => 10,
+        'scale' => 2,
+        'not null' => TRUE,
+        'default' => '0.00',
+      ],
+    ],
+    'primary key' => ['item_id'],
+  ];
+
+  $schema['vehicles'] = [
+    'description' => 'Stores vehicle data.',
+    'fields' => [
+      'vehicle_id' => [
+        'description' => 'The primary identifier for a vehicle.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'name' => [
+        'description' => 'The name of the vehicle.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['vehicle_id'],
+  ];
+
+  $schema['item_vehicle'] = [
+    'description' => 'Associates items with vehicles.',
+    'fields' => [
+      'item_vehicle_id' => [
+        'description' => 'The primary identifier for an item-vehicle association.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'item_id' => [
+        'description' => 'The identifier for an item.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'vehicle_id' => [
+        'description' => 'The identifier for a vehicle.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['item_vehicle_id'],
+    'foreign keys' => [
+      'item_id' => ['items', 'item_id'],
+      'vehicle_id' => ['vehicles', 'vehicle_id'],
+    ],
+  ];
+
+  $schema['category_item'] = [
+    'description' => 'Associates items with categories.',
+    'fields' => [
+      'category_item_id' => [
+        'description' => 'The primary identifier for a category-item association.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'item_id' => [
+        'description' => 'The identifier for an item.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'category_id' => [
+        'description' => 'The identifier for a category.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['category_item_id'],
+    'foreign keys' => [
+      'item_id' => ['items', 'item_id'],
+      'category_id' => ['categories', 'category_id'],
+    ],
+  ];
+
+  return $schema;
+}

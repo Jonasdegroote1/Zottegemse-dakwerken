@@ -3,23 +3,20 @@
 namespace Drupal\inventory_system\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Link;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Url;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\Link;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\node\Entity\Node;
+use Drupal\Core\Messenger\MessengerInterface;
 
 class InventoryController extends ControllerBase {
-  use StringTranslationTrait;
 
   /**
-   * The entity type manager.
+   * The database connection.
    *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   * @var \Drupal\Core\Database\Connection
    */
-  protected $entityTypeManager;
+  protected $database;
 
   /**
    * The messenger service.
@@ -31,13 +28,13 @@ class InventoryController extends ControllerBase {
   /**
    * Constructs a new InventoryController object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, MessengerInterface $messenger) {
-    $this->entityTypeManager = $entityTypeManager;
+  public function __construct(Connection $database, MessengerInterface $messenger) {
+    $this->database = $database;
     $this->messenger = $messenger;
   }
 
@@ -46,7 +43,7 @@ class InventoryController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager'),
+      $container->get('database'),
       $container->get('messenger')
     );
   }
@@ -55,12 +52,13 @@ class InventoryController extends ControllerBase {
    * Displays a list of inventory items.
    */
   public function listItems() {
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'inventory_item')
-      ->accessCheck(TRUE)
-      ->execute();
-    $items = Node::loadMultiple($query);
+    // Fetch items from the database table.
+    $query = $this->database->select('items', 'i')
+      ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price'])
+      ->execute()
+      ->fetchAll();
 
+    // Prepare table header.
     $header = [
       'item_name' => $this->t('Item Name'),
       'description' => $this->t('Description'),
@@ -69,18 +67,21 @@ class InventoryController extends ControllerBase {
       'price' => $this->t('Price'),
       'operations' => $this->t('Operations'),
     ];
+
+    // Prepare table rows.
     $rows = [];
-    foreach ($items as $item) {
-      $edit_url = Url::fromRoute('inventory_system.edit_form', ['node' => $item->id()]);
+    foreach ($query as $item) {
+      $edit_url = Url::fromRoute('inventory_system.edit_form', ['item_id' => $item->item_id]);
       $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
-      $delete_url = Url::fromRoute('inventory_system.delete_item', ['node' => $item->id()]);
+      $delete_url = Url::fromRoute('inventory_system.delete_item', ['item_id' => $item->item_id]);
       $delete_link = Link::fromTextAndUrl($this->t('Delete'), $delete_url);
+
       $rows[] = [
-        'item_name' => $item->field_item_name->value,
-        'description' => $item->field_description->value,
-        'quantity' => $item->field_quantity->value,
-        'location' => $item->field_location->value,
-        'price' => $item->field_price->value,
+        'item_name' => $item->title,
+        'description' => $item->description,
+        'quantity' => $item->quantity,
+        'location' => $item->location,
+        'price' => $item->price,
         'operations' => [
           'data' => [
             '#type' => 'operations',
@@ -124,15 +125,36 @@ class InventoryController extends ControllerBase {
   /**
    * Deletes an inventory item.
    *
-   * @param int $node
-   *   The node ID of the inventory item to delete.
+   * @param int $item_id
+   *   The ID of the inventory item to delete.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   A redirect response to the inventory list page.
    */
-  public function deleteItem($node) {
-    $node = Node::load($node);
-    if ($node) {
-      $node->delete();
-      $this->messenger->addMessage($this->t('Inventory item deleted successfully.'));
+  public function deleteItem($item_id) {
+    // Fetch item from the database to check if it exists.
+    $query = $this->database->select('items', 'i')
+      ->fields('i', ['item_id'])
+      ->condition('item_id', $item_id)
+      ->execute()
+      ->fetchField();
+
+    // Check if the item exists.
+    if ($query) {
+      // Delete the item from the database.
+      try {
+        $this->database->delete('items')
+          ->condition('item_id', $item_id)
+          ->execute();
+        $this->messenger->addMessage($this->t('Inventory item deleted successfully.'));
+      } catch (\Exception $e) {
+        $this->messenger->addError($this->t('An error occurred while deleting the inventory item: @error', ['@error' => $e->getMessage()]));
+      }
+    } else {
+      $this->messenger->addError($this->t('Invalid item ID.'));
     }
+
+    // Redirect back to the inventory list page.
     return $this->redirect('inventory_system.list');
   }
 }

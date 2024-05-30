@@ -15,24 +15,24 @@ inventory_system.list:
     _permission: 'administer site configuration'
 
 inventory_system.delete_item:
-  path: '/admin/inventory/{node}/delete'
+  path: '/admin/inventory/{item_id}/delete'
   defaults:
     _controller: '\Drupal\inventory_system\Controller\InventoryController::deleteItem'
     _title: 'Delete Inventory Item'
   requirements:
     _permission: 'administer site configuration'
-    node: \d+
+    item_id: \d+
   options:
     _access_check: TRUE
 
 inventory_system.edit_form:
-  path: '/admin/inventory/{node}/edit'
+  path: '/admin/inventory/{item_id}/edit'
   defaults:
     _form: '\Drupal\inventory_system\Form\InventoryEditForm'
     _title: 'Edit Inventory Item'
   requirements:
     _permission: 'administer site configuration'
-    node: \d+
+    item_id: \d+
   options:
     _access_check: TRUE
 
