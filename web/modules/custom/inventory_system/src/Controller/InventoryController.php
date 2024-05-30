@@ -6,6 +6,8 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+
 
 class InventoryController extends ControllerBase {
 
@@ -22,18 +24,22 @@ class InventoryController extends ControllerBase {
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    */
-  public function __construct(Connection $database) {
+  public function __construct(Connection $database, MessengerInterface $messenger) {
     $this->database = $database;
+    $this->messenger = $messenger;
   }
+
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('database')
+        $container->get('database'),
+        $container->get('messenger')
     );
   }
+
 
   /**
    * Displays a list of inventory items.

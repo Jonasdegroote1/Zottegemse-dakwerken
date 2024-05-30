@@ -118,13 +118,6 @@ class InventoryForm extends FormBase {
         ])
         ->execute();
 
-      // Insert data into 'category_item' table
-      $category_item_id = $connection->insert('category_item')
-      ->fields([
-        'item_id' => $item_id,
-        'category_id' => $category,
-      ])
-      ->execute();
     \Drupal::messenger()->addMessage($this->t('Inventory item added successfully.'));
     // Redirect to the inventory list page.
     $form_state->setRedirect('inventory_system.list');
