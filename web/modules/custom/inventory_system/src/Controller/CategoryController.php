@@ -6,8 +6,9 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\taxonomy\Entity\Term;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Database\Database;
+use Drupal\taxonomy\Entity\Term;
 
 class CategoryController extends ControllerBase {
 
@@ -41,38 +42,48 @@ class CategoryController extends ControllerBase {
    * List all categories.
    */
   public function listItems() {
-    $query = \Drupal::entityQuery('taxonomy_term')
-      ->condition('vid', 'category')
-      ->accessCheck(FALSE); // Set access check to FALSE
-    $tids = $query->execute();
+    // Select the category names and ids from the custom database table.
+    $connection = Database::getConnection();
+    $query = $connection->select('categories', 'c')
+      ->fields('c', ['title', 'category_id'])
+      ->orderBy('title');
+    $result = $query->execute()->fetchAll();
 
-    $terms = Term::loadMultiple($tids);
+    // Prepare table header.
+    $header = [
+      'category_name' => $this->t('Category Name'),
+      'operations' => $this->t('Operations'),
+    ];
 
+    // Prepare table rows.
     $rows = [];
-    foreach ($terms as $term) {
-      $editUrl = Url::fromRoute('inventory_system.category_edit_form', ['tid' => $term->id()]);
-      $editLink = Link::fromTextAndUrl($this->t('Edit'), $editUrl);
-      
-      $deleteUrl = Url::fromRoute('inventory_system.category_delete', ['tid' => $term->id()]);
-      $deleteLink = Link::fromTextAndUrl($this->t('Delete'), $deleteUrl);
+    foreach ($result as $record) {
+      $edit_url = Url::fromRoute('inventory_system.category_edit_form', ['tid' => $record->category_id]);
+      $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
+      $delete_url = Url::fromRoute('inventory_system.category_delete', ['tid' => $record->category_id]);
+      $delete_link = Link::fromTextAndUrl($this->t('Delete'), $delete_url);
 
       $rows[] = [
-        'data' => [
-          $term->getName(),
-          $term->getDescription(),
-          $editLink->toString(),
-          $deleteLink->toString(),
+        'category_name' => $record->title,
+        'operations' => [
+          'data' => [
+            '#type' => 'operations',
+            '#links' => [
+              'edit' => [
+                'title' => $edit_link->getText(),
+                'url' => $edit_link->getUrl(),
+              ],
+              'delete' => [
+                'title' => $delete_link->getText(),
+                'url' => $delete_link->getUrl(),
+              ],
+            ],
+          ],
         ],
       ];
     }
 
-    $header = [
-      $this->t('Category Name'),
-      $this->t('Description'),
-      $this->t('Edit'),
-      $this->t('Delete'),
-    ];
-
+    // Build the render array.
     $build = [
       '#type' => 'table',
       '#header' => $header,
@@ -93,15 +104,17 @@ class CategoryController extends ControllerBase {
     // Convert the $tid parameter to an integer if necessary
     $tid = (int) $tid;
 
-    // Load the term entity by its ID
-    $term = Term::load($tid);
-    if ($term) {
-      $term_name = $term->getName();
-      $term->delete();
-      $this->messenger->addMessage($this->t('Category %category has been deleted.', ['%category' => $term_name]));
+    // Delete the category from the database table
+    $query = \Drupal::database()->delete('categories')
+      ->condition('category_id', $tid)
+      ->execute();
+
+    if ($query) {
+      $this->messenger->addMessage($this->t('Category with ID %tid has been deleted.', ['%tid' => $tid]));
     } else {
-      $this->messenger->addMessage($this->t('Unable to delete category. Category not found.'), 'error');
+      $this->messenger->addMessage($this->t('Unable to delete category. Category with ID %tid not found.', ['%tid' => $tid]), 'error');
     }
+
     return $this->redirect('inventory_system.category_list');
   }
 }
