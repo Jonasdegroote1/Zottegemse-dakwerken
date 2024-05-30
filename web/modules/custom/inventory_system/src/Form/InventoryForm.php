@@ -4,13 +4,55 @@ namespace Drupal\inventory_system\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Database\Connection;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class InventoryForm extends FormBase {
+  
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
+   * Constructs a new InventoryForm object.
+   *
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   */
+  public function __construct(Connection $database) {
+    $this->database = $database;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('database')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFormId() {
     return 'inventory_form';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // Query categories from the database
+    $query = $this->database->select('categories', 'c')
+      ->fields('c', ['category_id', 'title'])
+      ->execute();
+
+    $categories = $query->fetchAllKeyed();
+
     $form['item_name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Item Name'),
@@ -37,6 +79,12 @@ class InventoryForm extends FormBase {
       '#step' => '0.01',
       '#required' => TRUE,
     ];
+    $form['category'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Category'),
+      '#options' => $categories,
+      '#required' => TRUE,
+    ];
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Add Item'),
@@ -44,29 +92,42 @@ class InventoryForm extends FormBase {
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get form values
-    $item_name = $form_state->getValue('item_name');
-    $description = $form_state->getValue('description');
-    $quantity = $form_state->getValue('quantity');
-    $location = $form_state->getValue('location');
-    $price = $form_state->getValue('price');
+      $item_name = $form_state->getValue('item_name');
+      $description = $form_state->getValue('description');
+      $quantity = $form_state->getValue('quantity');
+      $location = $form_state->getValue('location');
+      $price = $form_state->getValue('price');
+      $category = $form_state->getValue('category');
 
-    // Insert data into custom database table
-    $connection = \Drupal::database();
-    $connection->insert('items')
+      // Insert data into 'items' table
+      $connection = \Drupal::database();
+      $item_id = $connection->insert('items')
+        ->fields([
+          'title' => $item_name,
+          'description' => $description,
+          'quantity' => $quantity,
+          'location' => $location,
+          'price' => $price,
+          // Assuming 'category_id' is the correct column name in the 'items' table
+          'category_id' => $category,
+        ])
+        ->execute();
+
+      // Insert data into 'category_item' table
+      $category_item_id = $connection->insert('category_item')
       ->fields([
-        'title' => $item_name,
-        'description' => $description,
-        'quantity' => $quantity,
-        'location' => $location,
-        'price' => $price,
+        'item_id' => $item_id,
+        'category_id' => $category,
       ])
       ->execute();
-
     \Drupal::messenger()->addMessage($this->t('Inventory item added successfully.'));
-
     // Redirect to the inventory list page.
     $form_state->setRedirect('inventory_system.list');
   }
+
 }

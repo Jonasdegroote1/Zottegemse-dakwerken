@@ -49,7 +49,7 @@ class InventoryEditForm extends FormBase {
     if ($item_id) {
       // Fetch item data from the database.
       $item = $this->database->select('items', 'i')
-        ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price'])
+        ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price', 'category_id'])
         ->condition('item_id', $item_id)
         ->execute()
         ->fetchAssoc();
@@ -97,6 +97,20 @@ class InventoryEditForm extends FormBase {
           '#required' => TRUE,
         ];
 
+        // Query categories from the database
+        $query = $this->database->select('categories', 'c')
+          ->fields('c', ['category_id', 'title'])
+          ->execute();
+        $categories = $query->fetchAllKeyed();
+
+        $form['category'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Category'),
+          '#options' => $categories,
+          '#default_value' => $item['category_id'],
+          '#required' => TRUE,
+        ];
+
         $form['submit'] = [
           '#type' => 'submit',
           '#value' => $this->t('Save Changes'),
@@ -134,6 +148,7 @@ class InventoryEditForm extends FormBase {
         'quantity' => $form_state->getValue('quantity'),
         'location' => $form_state->getValue('location'),
         'price' => $form_state->getValue('price'),
+        'category_id' => $form_state->getValue('category'),
       ])
       ->condition('item_id', $item_id)
       ->execute();
@@ -144,4 +159,6 @@ class InventoryEditForm extends FormBase {
     // Redirect the user to a page or URL after saving the changes.
     $form_state->setRedirect('inventory_system.list');
   }
+
 }
+

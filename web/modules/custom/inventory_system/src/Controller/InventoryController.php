@@ -5,9 +5,7 @@ namespace Drupal\inventory_system\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Url;
-use Drupal\Core\Link;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
 
 class InventoryController extends ControllerBase {
 
@@ -19,23 +17,13 @@ class InventoryController extends ControllerBase {
   protected $database;
 
   /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
-  protected $messenger;
-
-  /**
    * Constructs a new InventoryController object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
    */
-  public function __construct(Connection $database, MessengerInterface $messenger) {
+  public function __construct(Connection $database) {
     $this->database = $database;
-    $this->messenger = $messenger;
   }
 
   /**
@@ -43,8 +31,7 @@ class InventoryController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('database'),
-      $container->get('messenger')
+      $container->get('database')
     );
   }
 
@@ -54,50 +41,73 @@ class InventoryController extends ControllerBase {
   public function listItems() {
     // Fetch items from the database table.
     $query = $this->database->select('items', 'i')
-      ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price'])
-      ->execute()
-      ->fetchAll();
+      ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'price', 'category_id'])
+      ->orderBy('category_id');
 
-    // Prepare table header.
-    $header = [
-      'item_name' => $this->t('Item Name'),
-      'description' => $this->t('Description'),
-      'quantity' => $this->t('Quantity'),
-      'location' => $this->t('Location'),
-      'price' => $this->t('Price'),
-      'operations' => $this->t('Operations'),
-    ];
+    // Execute the query and fetch results
+    $results = $query->execute()->fetchAll();
 
-    // Prepare table rows.
-    $rows = [];
-    foreach ($query as $item) {
-      $edit_url = Url::fromRoute('inventory_system.edit_form', ['item_id' => $item->item_id]);
-      $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
-      $delete_url = Url::fromRoute('inventory_system.delete_item', ['item_id' => $item->item_id]);
-      $delete_link = Link::fromTextAndUrl($this->t('Delete'), $delete_url);
+    // Initialize an array to hold items grouped by category
+    $items_by_category = [];
 
-      $rows[] = [
+    foreach ($results as $item) {
+      // Fetch category name based on category_id
+      $category_name = $this->getCategoryName($item->category_id);
+
+      // Add the item to the respective category
+      $items_by_category[$category_name][] = [
+        'item_id' => $item->item_id,
         'item_name' => $item->title,
         'description' => $item->description,
         'quantity' => $item->quantity,
         'location' => $item->location,
         'price' => $item->price,
-        'operations' => [
-          'data' => [
-            '#type' => 'operations',
-            '#links' => [
-              'edit' => [
-                'title' => $edit_link->getText(),
-                'url' => $edit_link->getUrl(),
-              ],
-              'delete' => [
-                'title' => $delete_link->getText(),
-                'url' => $delete_link->getUrl(),
+        // Include other fields as needed
+      ];
+    }
+
+    // Render items grouped by category
+    $rows = [];
+
+    foreach ($items_by_category as $category_name => $items) {
+      // Render category title
+      $rows[] = [
+        'data' => [
+          'item_name' => $category_name,
+          // Add empty cells for other columns
+        ],
+        'class' => ['category-row'],
+      ];
+
+      // Render items within the category
+      foreach ($items as $item) {
+        $edit_url = Url::fromRoute('inventory_system.edit_form', ['item_id' => $item['item_id']]);
+        $delete_url = Url::fromRoute('inventory_system.delete_item', ['item_id' => $item['item_id']]);
+
+        $rows[] = [
+          'item_name' => $item['item_name'],
+          'description' => $item['description'],
+          'quantity' => $item['quantity'],
+          'location' => $item['location'],
+          'price' => $item['price'],
+          // Include other fields as needed
+          'operations' => [
+            'data' => [
+              '#type' => 'operations',
+              '#links' => [
+                'edit' => [
+                  'title' => $this->t('Edit'),
+                  'url' => $edit_url,
+                ],
+                'delete' => [
+                  'title' => $this->t('Delete'),
+                  'url' => $delete_url,
+                ],
               ],
             ],
           ],
-        ],
-      ];
+        ];
+      }
     }
 
     $add_button = [
@@ -115,7 +125,7 @@ class InventoryController extends ControllerBase {
       'add_button' => $add_button,
       'table' => [
         '#type' => 'table',
-        '#header' => $header,
+        '#header' => $this->getTableHeader(),
         '#rows' => $rows,
         '#empty' => $this->t('No inventory items found.'),
       ],
@@ -123,38 +133,66 @@ class InventoryController extends ControllerBase {
   }
 
   /**
-   * Deletes an inventory item.
-   *
-   * @param int $item_id
-   *   The ID of the inventory item to delete.
-   *
-   * @return \Symfony\Component\HttpFoundation\RedirectResponse
-   *   A redirect response to the inventory list page.
+   * Helper function to get table header.
    */
-  public function deleteItem($item_id) {
-    // Fetch item from the database to check if it exists.
-    $query = $this->database->select('items', 'i')
-      ->fields('i', ['item_id'])
-      ->condition('item_id', $item_id)
+  private function getTableHeader() {
+    return [
+      'item_name' => $this->t('Item Name'),
+      'description' => $this->t('Description'),
+      'quantity' => $this->t('Quantity'),
+      'location' => $this->t('Location'),
+      'price' => $this->t('Price'),
+      'operations' => $this->t('Operations'),
+      // Include other fields as needed
+    ];
+  }
+
+  /**
+   * Helper function to fetch category name based on category ID.
+   */
+  private function getCategoryName($category_id) {
+    // Fetch category name from the 'categories' table based on category_id
+    // Adjust this query based on your actual database schema
+    $category_name = $this->database->select('categories', 'c')
+      ->fields('c', ['title'])
+      ->condition('c.category_id', $category_id)
       ->execute()
       ->fetchField();
 
-    // Check if the item exists.
-    if ($query) {
-      // Delete the item from the database.
-      try {
-        $this->database->delete('items')
-          ->condition('item_id', $item_id)
-          ->execute();
-        $this->messenger->addMessage($this->t('Inventory item deleted successfully.'));
-      } catch (\Exception $e) {
-        $this->messenger->addError($this->t('An error occurred while deleting the inventory item: @error', ['@error' => $e->getMessage()]));
-      }
-    } else {
-      $this->messenger->addError($this->t('Invalid item ID.'));
-    }
+    return $category_name ? $category_name : 'Uncategorized';
+  }
 
-    // Redirect back to the inventory list page.
+  /**
+   * Deletes an inventory item.
+   *
+   * @param int $item_id
+   *   The ID of the item to delete.
+   */
+public function deleteItem($item_id) {
+    // Check if the item exists.
+    $item_exists = $this->database->select('items', 'i')
+      ->fields('i', ['item_id'])
+      ->condition('item_id', $item_id)
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+
+    if ($item_exists) {
+        try {
+            // Delete the item from the items table.
+            $this->database->delete('items')
+                ->condition('item_id', $item_id)
+                ->execute();
+            
+            $this->messenger->addMessage($this->t('Inventory item deleted successfully.'));
+        } catch (\Exception $e) {
+            $this->messenger->addError($this->t('An error occurred while deleting the inventory item: @error', ['@error' => $e->getMessage()]));
+        }
+    } else {
+        $this->messenger->addError($this->t('Invalid item ID.'));
+    }
+    
+    // Redirect to the listing page after deletion.
     return $this->redirect('inventory_system.list');
   }
 }
