@@ -113,7 +113,6 @@ class InventoryForm extends FormBase {
           'quantity' => $quantity,
           'location' => $location,
           'price' => $price,
-          // Assuming 'category_id' is the correct column name in the 'items' table
           'category_id' => $category,
         ])
         ->execute();
