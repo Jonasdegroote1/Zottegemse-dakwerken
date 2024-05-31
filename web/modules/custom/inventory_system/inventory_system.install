@@ -105,45 +105,51 @@ function inventory_system_install() {
   }
 
   // Create the item_vehicle table.
-  if (!Database::getConnection()->schema()->tableExists('item_vehicle')) {
+if (!Database::getConnection()->schema()->tableExists('item_vehicle')) {
     $itemVehicleSchema = [
-      'fields' => [
-        'item_vehicle_id' => [
-          'type' => 'serial',
-          'not null' => TRUE,
-          'description' => 'The auto-incremented ID for an item-vehicle relation.',
+        'fields' => [
+            'item_vehicle_id' => [
+                'type' => 'serial',
+                'not null' => TRUE,
+                'description' => 'The auto-incremented ID for an item-vehicle relation.',
+            ],
+            'item_id' => [
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'The ID of the inventory item.',
+            ],
+            'vehicle_id' => [
+                'type' => 'int',
+                'not null' => TRUE,
+                'description' => 'The ID of the vehicle.',
+            ],
+            'quantity' => [
+                'type' => 'int',
+                'not null' => TRUE,
+                'default' => 0,
+                'description' => 'The quantity of the inventory item in the vehicle.',
+            ],
+            'date' => [
+                'type' => 'varchar',
+                'length' => 10,
+                'not null' => TRUE,
+                'description' => 'The date when the item was added to the vehicle.',
+            ],
         ],
-        'item_id' => [
-          'type' => 'int',
-          'not null' => TRUE,
-          'description' => 'The ID of the inventory item.',
+        'primary key' => ['item_vehicle_id'],
+        'foreign keys' => [
+            'item_id' => [
+                'table' => 'items',
+                'columns' => ['item_id'],
+            ],
+            'vehicle_id' => [
+                'table' => 'vehicles',
+                'columns' => ['vehicle_id'],
+            ],
         ],
-        'vehicle_id' => [
-          'type' => 'int',
-          'not null' => TRUE,
-          'description' => 'The ID of the vehicle.',
-        ],
-        'quantity' => [
-          'type' => 'int',
-          'not null' => TRUE,
-          'default' => 0,
-          'description' => 'The quantity of the inventory item in the vehicle.',
-        ],
-      ],
-      'primary key' => ['item_vehicle_id'],
-      'foreign keys' => [
-        'item_id' => [
-          'table' => 'items',
-          'columns' => ['item_id'],
-        ],
-        'vehicle_id' => [
-          'table' => 'vehicles',
-          'columns' => ['vehicle_id'],
-        ],
-      ],
     ];
-
-    // Create the item_vehicle table.
     Database::getConnection()->schema()->createTable('item_vehicle', $itemVehicleSchema);
-  }
+}
+
+
 }

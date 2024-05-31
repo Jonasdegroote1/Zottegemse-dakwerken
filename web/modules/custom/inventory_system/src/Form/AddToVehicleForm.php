@@ -68,6 +68,12 @@ class AddToVehicleForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    $form['date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('Date'),
+      '#required' => TRUE,
+    ];
+
     $form['items'] = [
       '#type' => 'table',
       '#header' => [
@@ -134,6 +140,7 @@ class AddToVehicleForm extends FormBase {
   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $vehicle_id = $form_state->getValue('vehicle');
+    $date = $form_state->getValue('date');
 
     // Get inventory items.
     $inventory_items = $this->getInventoryItems();
@@ -153,6 +160,7 @@ class AddToVehicleForm extends FormBase {
             'vehicle_id' => $vehicle_id,
             'item_id' => $item_id,
             'quantity' => $selected_quantity,
+            'date' => $date,
           ])
           ->execute();
 
