@@ -130,8 +130,8 @@ class AddToVehicleForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}
-   */
+  * {@inheritdoc}
+  */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $vehicle_id = $form_state->getValue('vehicle');
 
@@ -156,15 +156,24 @@ class AddToVehicleForm extends FormBase {
           ])
           ->execute();
 
+        // Update the items table to subtract the selected quantity.
+        $this->database->update('items')
+          ->fields([
+            'quantity' => $available_quantity - $selected_quantity,
+          ])
+          ->condition('item_id', $item_id)
+          ->execute();
+
         $added_items++;
       }
     }
 
     // Display success message if items were added.
     if ($added_items > 0) {
-      $this->messenger()->addStatus($this->formatPlural($added_items, 'One item added to the vehicle.', '@count items added to the' . ' vehicle.'));
+      $this->messenger()->addStatus($this->formatPlural($added_items, 'One item added to the vehicle.', '@count items added to the vehicle.'));
     }
   }
+
   /**
    * Helper function to retrieve inventory items.
    */
