@@ -83,15 +83,27 @@ class CategoryController extends ControllerBase {
       ];
     }
 
-    // Build the render array.
-    $build = [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
-      '#empty' => $this->t('No categories found.'),
+    $add_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add category'),
+      '#url' => Url::fromRoute('inventory_system.category_add_form'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
     ];
 
-    return $build;
+    return [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['inventory-list-container']],
+    'add_button' => $add_button,
+    'table' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+        '#empty' => $this->t('No categories found.'),
+    ],
+];
+
   }
 
   /**

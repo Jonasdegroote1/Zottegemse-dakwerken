@@ -82,14 +82,27 @@ class VehicleController extends ControllerBase {
       ];
     }
 
-    // Build the table.
-    $build = [
-      '#type' => 'table',
-      '#header' => $header,
-      '#rows' => $rows,
+    $add_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add vehicle'),
+      '#url' => Url::fromRoute('inventory_system.vehicle_add_form'),
+      '#attributes' => [
+          'class' => ['button', 'button--primary'],
+      ],
     ];
 
-    return $build;
+    return [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['inventory-list-container']],
+        'add_button' => $add_button,
+        'table' => [
+            '#type' => 'table',
+            '#header' => $header,
+            '#rows' => $rows,
+            '#empty' => $this->t('No vehicles found.'),
+        ],
+    ];
+
   }
 
   /**
