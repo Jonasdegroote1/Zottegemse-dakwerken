@@ -1,10 +1,10 @@
-inventory_system.home:
-  path: '/admin/inventory'
-  defaults:
-    _controller: '\Drupal\inventory_system\Controller\InventoryController::home'
-    _title: 'Inventory System'
-  requirements:
-    _permission: 'administer site configuration'
+# inventory_system.home:
+#   path: '/admin/inventory'
+#   defaults:
+#     _controller: '\Drupal\inventory_system\Controller\InventoryController::home'
+#     _title: 'Inventory System'
+#   requirements:
+#     _permission: 'administer site configuration'
 
 inventory_system.add_form:
   path: '/admin/inventory/add'
