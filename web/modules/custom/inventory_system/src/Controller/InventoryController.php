@@ -134,12 +134,32 @@ class InventoryController extends ControllerBase {
       ],
     ];
 
+    $add_category_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add Category'),
+      '#url' => Url::fromRoute('inventory_system.category_add_form'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
+    $view_vehicles_button = [
+      '#type' => 'link',
+      '#title' => $this->t('View Vehicles'),
+      '#url' => Url::fromRoute('inventory_system.vehicle_overview'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
 
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['inventory-list-container']],
       'add_button' => $add_button,
       'add_to_vehicle_button' => $add_to_vehicle_button,
+      'add_category_button' => $add_category_button,
+      'view_vehicles_button' => $view_vehicles_button,
       'table' => [
         '#type' => 'table',
         '#header' => $this->getTableHeader(),

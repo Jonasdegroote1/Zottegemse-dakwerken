@@ -9,102 +9,119 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 
 class VehicleControllerOverview extends ControllerBase {
-    /**
-     * The database connection.
-     *
-     * @var \Drupal\Core\Database\Connection
-     */
-    protected $database;
-
-    /**
-     * The messenger service.
-     *
-     * @var \Drupal\Core\Messenger\MessengerInterface
-     */
-    protected $messenger;
-
-    /**
-     * Constructs a new VehicleControllerOverview object.
-     *
-     * @param \Drupal\Core\Database\Connection $database
-     *   The database connection.
-     * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-     *   The messenger service.
-     */
-    public function __construct(Connection $database, MessengerInterface $messenger) {
-        $this->database = $database;
-        $this->messenger = $messenger;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container) {
-        return new static(
-            $container->get('database'),
-            $container->get('messenger')
-        );
-    }
-
-    /**
-     * Displays a list of vehicles grouped by vehicle_id and date.
-     */
+  /**
+  * The database connection.
+  *
+  * @var \Drupal\Core\Database\Connection
+  */
+  protected $database;
+  /**
+  * The messenger service.
+  *
+  * @var \Drupal\Core\Messenger\MessengerInterface
+  */
+  protected $messenger;
+  /**
+  * Constructs a new VehicleControllerOverview object.
+  *
+  * @param \Drupal\Core\Database\Connection $database
+  *   The database connection.
+  * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+  *   The messenger service.
+  */
+  public function __construct(Connection $database, MessengerInterface $messenger) {
+    $this->database = $database;
+    $this->messenger = $messenger;
+  }
+  /**
+  * {@inheritdoc}
+  */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('database'),
+        $container->get('messenger')
+    );
+  }
+  /**
+  * Displays a list of vehicles grouped by vehicle_id and date.
+  */
 /**
- * Displays a list of vehicles grouped by vehicle_id and date.
- */
+  * Displays a list of vehicles grouped by vehicle_id and date.
+  */
   public function overviewPage() {
     // Retrieve the list of vehicles.
     $grouped_vehicles = $this->vehicleList();
 
     // Build the table.
     $header = [
-        'id' => $this->t('ID'),
-        'quantity' => $this->t('Quantity'),
-        'date' => $this->t('Date'),
-        'details' => $this->t('Details'), // Added column for details
+      'id' => $this->t('ID'),
+      'quantity' => $this->t('Quantity'),
+      'date' => $this->t('Date'),
+      'details' => $this->t('Details'), // Added column for details
     ];
 
     $rows = [];
     foreach ($grouped_vehicles as $vehicle_id => $vehicles) {
-        foreach ($vehicles as $date => $items) {
-            // Construct row for each group.
-            $row = [
-                'id' => $vehicle_id, // Using $vehicle_id for the ID
-                'quantity' => 0,
-                'date' => $date,
-                'details' => [
-                    'data' => [
-                        '#type' => 'link',
-                        '#title' => $this->t('View Details'),
-                        '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' => $date]),
-                    ],
-                ],
-            ];
-
-            // Accumulate quantities for each group.
-            foreach ($items as $item) {
-                $row['quantity'] += $item->quantity;
-            }
-
-            $rows[] = $row;
+      foreach ($vehicles as $date => $items) {
+        // Construct row for each group.
+        $row = [
+          'id' => $vehicle_id, // Using $vehicle_id for the ID
+          'quantity' => 0,
+          'date' => $date,
+          'details' => [
+            'data' => [
+              '#type' => 'link',
+              '#title' => $this->t('View Details'),
+              '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' =>$date]),
+            ],
+          ],
+        ];
+        // Accumulate quantities for each group.
+        foreach ($items as $item) {
+          $row['quantity'] += $item->quantity;
         }
+        $rows[] = $row;
+      }
+
+    $add_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add items to vehicle'),
+      '#url' => Url::fromRoute('inventory_system.add_to_vehicle'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+      ];
     }
 
-    // Create a render array for the table.
-    $build['table'] = [
+    $inventory_button = [
+      '#type' => 'link',
+      '#title' => $this->t('View Inventory'),
+      '#url' => Url::fromRoute('inventory_system.list'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
+    return [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['vehicle-list-container']],
+      'add_button' => $add_button,
+      'inventory_button' => $inventory_button,
+      'table' => [
         '#type' => 'table',
         '#header' => $header,
         '#rows' => $rows,
+        '#empty' => $this->t('No vehicles found.'),
+      ],
     ];
 
-    return $build;
   }
 
 
 /**
  * Displays detailed information about a specific vehicle and date.
  */
-public function detailPage($vehicle_id, $date) {
+  public function detailPage($vehicle_id, $date) {
     // Retrieve items for the specified vehicle_id and date.
     $items = $this->getItemsForVehicleAndDate($vehicle_id, $date);
 
@@ -130,14 +147,14 @@ public function detailPage($vehicle_id, $date) {
     ];
 
     return $build;
-}
+  }
 
 
 
 /**
  * Retrieves items for a specific vehicle_id and date.
  */
-protected function getItemsForVehicleAndDate($vehicle_id, $date) {
+  protected function getItemsForVehicleAndDate($vehicle_id, $date) {
     // Build the query to fetch items for the specified vehicle_id and date.
     $query = $this->database->select('item_vehicle', 'iv')
         ->fields('iv', ['item_id', 'quantity'])
@@ -149,7 +166,7 @@ protected function getItemsForVehicleAndDate($vehicle_id, $date) {
     $items = $query->execute()->fetchAll();
 
     return $items;
-}
+  }
 
 
     /**
