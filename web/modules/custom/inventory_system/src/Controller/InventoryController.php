@@ -5,9 +5,9 @@ namespace Drupal\inventory_system\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Url;
+use Drupal\Core\Link;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-
 
 class InventoryController extends ControllerBase {
 
@@ -87,7 +87,9 @@ class InventoryController extends ControllerBase {
       // Render items within the category
       foreach ($items as $item) {
         $edit_url = Url::fromRoute('inventory_system.edit_form', ['item_id' => $item['item_id']]);
+        $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
         $delete_url = Url::fromRoute('inventory_system.delete_item', ['item_id' => $item['item_id']]);
+        $delete_link = Link::fromTextAndUrl($this->t('Delete'), $delete_url);
 
         $rows[] = [
           'item_name' => $item['item_name'],
@@ -100,12 +102,12 @@ class InventoryController extends ControllerBase {
               '#type' => 'operations',
               '#links' => [
                 'edit' => [
-                  'title' => $this->t('Edit'),
-                  'url' => $edit_url,
+                  'title' => $edit_link->getText(),
+                  'url' => $edit_link->getUrl(),
                 ],
                 'delete' => [
-                  'title' => $this->t('Delete'),
-                  'url' => $delete_url,
+                  'title' => $delete_link->getText(),
+                  'url' => $delete_link->getUrl(),
                 ],
               ],
             ],
