@@ -1,22 +1,37 @@
+inventory_system.inventory:
+  title: 'Inventory'
+  description: 'Manage inventory items.'
+  route_name: inventory_system.list
+  parent: system.admin_content
+  weight: 0
+
+
+inventory_system.inventory_menu:
+  title: 'Inventory Menu'
+  description: 'Manage inventory items.'
+  route_name: inventory_system.list
+  parent: inventory_system.inventory
+  weight: 0
+
 inventory_system.add_inventory:
   title: 'Add Inventory Item'
   description: 'Add a new inventory item.'
   route_name: inventory_system.add_form
-  parent: system.admin_content
+  parent: inventory_system.inventory_menu
   weight: 0
 
 inventory_system.list_inventory:
   title: 'Inventory List'
   description: 'List all inventory items.'
   route_name: inventory_system.list
-  parent: system.admin_content
+  parent: inventory_system.inventory_menu
   weight: 1
 
 inventory_system.category_menu:
   title: 'Category Menu'
   description: 'Manage categories.'
   route_name: inventory_system.category_list
-  parent: system.admin_content
+  parent: inventory_system.inventory
   weight: 2
 
 inventory_system.add_category:
@@ -31,4 +46,26 @@ inventory_system.list_categories:
   description: 'List all categories.'
   route_name: inventory_system.category_list
   parent: inventory_system.category_menu
+  weight: 1
+
+
+inventory_system.vehicles_menu:
+  title: 'Vehicles Menu'
+  description: 'Manage vehicles.'
+  route_name: inventory_system.vehicles_list
+  parent: inventory_system.inventory
+  weight: 3
+
+inventory_system.add_vehicle:
+  title: 'Add Vehicle'
+  description: 'Add a new vehicle.'
+  route_name: inventory_system.vehicle_add_form
+  parent: inventory_system.vehicles_menu
+  weight: 0
+
+inventory_system.list_vehicles:
+  title: 'Vehicles List'
+  description: 'List all vehicles.'
+  route_name: inventory_system.vehicles_list
+  parent: inventory_system.vehicles_menu
   weight: 1

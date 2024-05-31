@@ -1,3 +1,11 @@
+inventory_system.home:
+  path: '/admin/inventory'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\InventoryController::home'
+    _title: 'Inventory System'
+  requirements:
+    _permission: 'administer site configuration'
+
 inventory_system.add_form:
   path: '/admin/inventory/add'
   defaults:
@@ -74,4 +82,44 @@ inventory_system.category_edit_form:
   options:
     parameters:
       tid:
+        type: 'integer'
+
+inventory_system.vehicles_list:
+  path: '/admin/inventory/vehicles/list'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\VehicleController::listItems'
+    _title: 'Vehicles List'
+  requirements:
+    _permission: 'administer site configuration'
+
+inventory_system.vehicle_add_form:
+  path: '/admin/inventory/vehicle/add'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\VehicleForm'
+    _title: 'Add Vehicle'
+  requirements:
+    _permission: 'administer site configuration'
+
+inventory_system.vehicle_edit_form:
+  path: '/admin/inventory/vehicle/edit/{vid}'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\VehicleEditForm'
+    _title: 'Edit Vehicle'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    parameters:
+      vid:
+        type: 'integer'
+
+inventory_system.vehicle_delete:
+  path: '/admin/inventory/vehicle/delete/{vid}'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\VehicleController::deleteVehicle'
+    _title: 'Delete Vehicle'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    parameters:
+      vid:
         type: 'integer'
