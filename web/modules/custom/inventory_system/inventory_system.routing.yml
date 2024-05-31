@@ -123,3 +123,16 @@ inventory_system.vehicle_delete:
     parameters:
       vid:
         type: 'integer'
+
+inventory_system.add_to_vehicle:
+  path: '/admin/inventory/vehicle/items/add'
+  defaults:
+    _form: '\Drupal\inventory_system\Form\AddToVehicleForm'
+    _title: 'Add Inventory Item to Vehicle'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    parameters:
+      vid:
+        type: 'integer'
+

@@ -123,6 +123,12 @@ function inventory_system_install() {
           'not null' => TRUE,
           'description' => 'The ID of the vehicle.',
         ],
+        'quantity' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => 'The quantity of the inventory item in the vehicle.',
+        ],
       ],
       'primary key' => ['item_vehicle_id'],
       'foreign keys' => [

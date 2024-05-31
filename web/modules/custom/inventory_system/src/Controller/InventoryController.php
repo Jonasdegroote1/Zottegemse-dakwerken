@@ -125,10 +125,20 @@ class InventoryController extends ControllerBase {
       ],
     ];
 
+    $add_to_vehicle_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add Inventory Item to Vehicle'),
+      '#url' => Url::fromRoute('inventory_system.add_to_vehicle'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['inventory-list-container']],
       'add_button' => $add_button,
+      'add_to_vehicle_button' => $add_to_vehicle_button,
       'table' => [
         '#type' => 'table',
         '#header' => $this->getTableHeader(),
