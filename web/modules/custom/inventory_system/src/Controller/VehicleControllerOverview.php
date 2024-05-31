@@ -54,7 +54,7 @@ class VehicleControllerOverview extends ControllerBase {
 
     // Build the table.
     $header = [
-      'id' => $this->t('ID'),
+      'name' => $this->t('Vehicle name'),
       'quantity' => $this->t('Quantity'),
       'date' => $this->t('Date'),
       'details' => $this->t('Details'), // Added column for details
@@ -64,8 +64,11 @@ class VehicleControllerOverview extends ControllerBase {
     foreach ($grouped_vehicles as $vehicle_id => $vehicles) {
       foreach ($vehicles as $date => $items) {
         // Construct row for each group.
+
+        $vehicle_name = reset($items)->vehicle_name;
+
         $row = [
-          'id' => $vehicle_id, // Using $vehicle_id for the ID
+          'name' => $vehicle_name, // Using $vehicle_id for the ID
           'quantity' => 0,
           'date' => $date,
           'details' => [
@@ -158,6 +161,8 @@ class VehicleControllerOverview extends ControllerBase {
     // Build the query to fetch items for the specified vehicle_id and date.
     $query = $this->database->select('item_vehicle', 'iv')
         ->fields('iv', ['item_id', 'quantity'])
+        // ->join('items', 'i', 'iv.item_id = i.item_id')
+        // ->fields('i', ['title'])
         ->condition('iv.vehicle_id', $vehicle_id)
         ->condition('iv.date', $date)
         ->orderBy('iv.item_id', 'ASC');
@@ -178,6 +183,9 @@ class VehicleControllerOverview extends ControllerBase {
             ->fields('iv', ['item_vehicle_id', 'item_id', 'quantity', 'date', 'vehicle_id'])
             ->orderBy('iv.date', 'DESC');
 
+        $query->join('vehicles', 'v', 'iv.vehicle_id = v.vehicle_id');
+        $query->fields('v', ['name']);
+
         // Execute the query and fetch results.
         $results = $query->execute()->fetchAll();
 
@@ -186,6 +194,7 @@ class VehicleControllerOverview extends ControllerBase {
         foreach ($results as $result) {
             $vehicle_id = $result->vehicle_id;
             $date = $result->date;
+            $result->vehicle_name = $result->name;
             if (!isset($grouped_results[$vehicle_id][$date])) {
                 $grouped_results[$vehicle_id][$date] = [];
             }
