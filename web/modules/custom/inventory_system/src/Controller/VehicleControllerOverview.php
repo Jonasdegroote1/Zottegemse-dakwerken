@@ -96,6 +96,15 @@ class VehicleControllerOverview extends ControllerBase {
       ];
     }
 
+    $add_vehicle_button = [
+      '#type' => 'link',
+      '#title' => $this->t('Add Vehicle'),
+      '#url' => Url::fromRoute('inventory_system.vehicle_add_form'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
     $inventory_button = [
       '#type' => 'link',
       '#title' => $this->t('View Inventory'),
@@ -109,6 +118,7 @@ class VehicleControllerOverview extends ControllerBase {
       '#type' => 'container',
       '#attributes' => ['class' => ['vehicle-list-container']],
       'add_button' => $add_button,
+      'add_vehicle_button' => $add_vehicle_button,
       'inventory_button' => $inventory_button,
       'table' => [
         '#type' => 'table',
