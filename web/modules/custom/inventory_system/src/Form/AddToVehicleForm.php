@@ -180,6 +180,7 @@ class AddToVehicleForm extends FormBase {
     if ($added_items > 0) {
       $this->messenger()->addStatus($this->formatPlural($added_items, 'One item added to the vehicle.', '@count items added to the vehicle.'));
     }
+    $form_state->setRedirect('inventory_system.vehicle_overview');
   }
 
   /**

@@ -69,3 +69,10 @@ inventory_system.list_vehicles:
   route_name: inventory_system.vehicles_list
   parent: inventory_system.vehicles_menu
   weight: 1
+
+inventory_system.vehicles_overview:
+  title: 'Vehicles Overview'
+  description: 'Overview of all vehicles.'
+  route_name: inventory_system.vehicle_overview
+  parent: inventory_system.vehicles_menu
+  weight: 2

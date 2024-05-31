@@ -136,3 +136,18 @@ inventory_system.add_to_vehicle:
       vid:
         type: 'integer'
 
+inventory_system.vehicle_overview:
+  path: '/admin/vehicles/overview'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\VehicleControllerOverview::overviewPage'
+    _title: 'Vehicle Overview'
+  requirements:
+    _permission: 'access content'
+
+inventory_system.vehicle_detail_page:
+  path: '/admin/vehicles/{vehicle_id}/{date}'
+  defaults:
+    _controller: '\Drupal\inventory_system\Controller\VehicleControllerOverview::detailPage'
+    _title: 'Vehicle Detail'
+  requirements:
+    _permission: 'access content'

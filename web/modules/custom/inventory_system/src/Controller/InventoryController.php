@@ -134,6 +134,7 @@ class InventoryController extends ControllerBase {
       ],
     ];
 
+
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['inventory-list-container']],
