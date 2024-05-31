@@ -12,25 +12,25 @@ use Drupal\Core\Database\Database;
 class VehicleController extends ControllerBase {
 
   /**
-   * The messenger service.
-   *
-   * @var \Drupal\Core\Messenger\MessengerInterface
-   */
+  * The messenger service.
+  *
+  * @var \Drupal\Core\Messenger\MessengerInterface
+  */
   protected $messenger;
 
   /**
-   * Constructs a new VehicleController object.
-   *
-   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
-   *   The messenger service.
-   */
+  * Constructs a new VehicleController object.
+  *
+  * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+  *   The messenger service.
+  */
   public function __construct(MessengerInterface $messenger) {
     $this->messenger = $messenger;
   }
 
   /**
-   * {@inheritdoc}
-   */
+  * {@inheritdoc}
+  */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('messenger')
@@ -55,7 +55,7 @@ class VehicleController extends ControllerBase {
     ];
 
     // Prepare table rows.
-     $rows = [];
+    $rows = [];
     foreach ($result as $record) {
       $edit_url = Url::fromRoute('inventory_system.vehicle_edit_form', ['vid' => $record->vehicle_id]);
       $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
@@ -87,20 +87,20 @@ class VehicleController extends ControllerBase {
       '#title' => $this->t('Add vehicle'),
       '#url' => Url::fromRoute('inventory_system.vehicle_add_form'),
       '#attributes' => [
-          'class' => ['button', 'button--primary'],
+        'class' => ['button', 'button--primary'],
       ],
     ];
 
     return [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['inventory-list-container']],
-        'add_button' => $add_button,
-        'table' => [
-            '#type' => 'table',
-            '#header' => $header,
-            '#rows' => $rows,
-            '#empty' => $this->t('No vehicles found.'),
-        ],
+      '#type' => 'container',
+      '#attributes' => ['class' => ['inventory-list-container']],
+      'add_button' => $add_button,
+      'table' => [
+        '#type' => 'table',
+        '#header' => $header,
+        '#rows' => $rows,
+        '#empty' => $this->t('No vehicles found.'),
+      ],
     ];
 
   }

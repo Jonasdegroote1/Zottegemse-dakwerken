@@ -92,10 +92,20 @@ class CategoryController extends ControllerBase {
       ],
     ];
 
+    $inventory_button = [
+      '#type' => 'link',
+      '#title' => $this->t('View Inventory'),
+      '#url' => Url::fromRoute('inventory_system.list'),
+      '#attributes' => [
+        'class' => ['button', 'button--primary'],
+      ],
+    ];
+
     return [
     '#type' => 'container',
     '#attributes' => ['class' => ['inventory-list-container']],
     'add_button' => $add_button,
+    'inventory_button' => $inventory_button,
     'table' => [
         '#type' => 'table',
         '#header' => $header,
