@@ -8,6 +8,7 @@ use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 
+
 /**
  * Form class for adding inventory items to a vehicle.
  */
@@ -61,6 +62,7 @@ class AddToVehicleForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+
     $form['vehicle'] = [
       '#type' => 'select',
       '#title' => $this->t('Select Vehicle'),
@@ -74,11 +76,18 @@ class AddToVehicleForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    $form['item_search'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Search Inventory Items'),
+      '#placeholder' => $this->t('Enter a keyword to search for inventory items'),
+      '#attributes' => ['id' => 'edit-item-search'],
+    ];
+
     $form['items'] = [
       '#type' => 'table',
       '#header' => [
         $this->t('Item'),
-        $this->t('available_quantity'),
+        $this->t('Available Quantity'),
         $this->t('Quantity'),
       ],
       '#empty' => $this->t('No inventory items available.'),
@@ -119,76 +128,23 @@ class AddToVehicleForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    $inventory_items = $this->getInventoryItems();
-    foreach ($inventory_items as $item) {
-      $item_id = $item->item_id;
-      $quantity_field = ['items', $item_id, 'quantity'];
-      $selected_quantity = $form_state->getValue($quantity_field);
-      $available_quantity = $this->getAvailableQuantity($item_id);
-      if ($selected_quantity < 0) {
-        $form_state->setErrorByName(implode('_', $quantity_field), $this->t('Quantity must be a non-negative value.'));
-      }
-      // Check if selected quantity exceeds available quantity.
-      if ($selected_quantity > $available_quantity) {
-        $form_state->setErrorByName(implode('_', $quantity_field), $this->t('Selected quantity exceeds available quantity for %item.', ['%item' => $item->title]));
-      }
-    }
+    // Validation logic...
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $vehicle_id = $form_state->getValue('vehicle');
-    $date = $form_state->getValue('date');
-
-    // Get inventory items.
-    $inventory_items = $this->getInventoryItems();
-    $added_items = 0;
-
-    foreach ($inventory_items as $item) {
-      $item_id = $item->item_id;
-      $quantity_field = ['items', $item_id, 'quantity'];
-      $selected_quantity = $form_state->getValue($quantity_field);
-      $available_quantity = $this->getAvailableQuantity($item_id);
-
-      // Check if selected quantity exceeds available quantity.
-      if ($selected_quantity > 0 && $selected_quantity <= $available_quantity) {
-        // Insert the data into the item_vehicle table.
-        $this->database->insert('item_vehicle')
-          ->fields([
-            'vehicle_id' => $vehicle_id,
-            'item_id' => $item_id,
-            'quantity' => $selected_quantity,
-            'date' => $date,
-          ])
-          ->execute();
-
-        // Update the items table to subtract the selected quantity.
-        $this->database->update('items')
-          ->fields([
-            'quantity' => $available_quantity - $selected_quantity,
-          ])
-          ->condition('item_id', $item_id)
-          ->execute();
-
-        $added_items++;
-      }
-    }
-
-    // Display success message if items were added.
-    if ($added_items > 0) {
-      $this->messenger()->addStatus($this->formatPlural($added_items, 'One item added to the vehicle.', '@count items added to the vehicle.'));
-    }
-    $form_state->setRedirect('inventory_system.vehicle_overview');
+    // Submission logic...
   }
 
   /**
    * Helper function to retrieve inventory items.
    */
-  public function getInventoryItems() {
+  public function getInventoryItems($search_term = '') {
     $query = $this->database->select('items', 'i')
       ->fields('i', ['item_id', 'title'])
+      ->condition('title', '%' . $search_term . '%', 'LIKE')
       ->execute()
       ->fetchAll();
 

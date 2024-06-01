@@ -1,0 +1,6 @@
+inventory_form:
+  version: 1.x
+  js:
+    js/inventory_form.js: {}
+  dependencies:
+    - core/jquery
