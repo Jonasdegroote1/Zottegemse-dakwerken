@@ -87,6 +87,7 @@ class AddToVehicleForm extends FormBase {
       '#type' => 'table',
       '#header' => [
         $this->t('Item'),
+        $this->t('Description'),
         $this->t('Available Quantity'),
         $this->t('Quantity'),
       ],
@@ -100,6 +101,11 @@ class AddToVehicleForm extends FormBase {
         '#type' => 'checkbox',
         '#title' => $item->title,
         '#default_value' => FALSE,
+      ];
+
+      $form['items'][$item->item_id]['description'] = [
+        '#type' => 'item',
+        '#markup' => $item->description,
       ];
 
       $form['items'][$item->item_id]['available_quantity'] = [
@@ -135,7 +141,48 @@ class AddToVehicleForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Submission logic...
+    $vehicle_id = $form_state->getValue('vehicle');
+    $date = $form_state->getValue('date');
+
+    // Get inventory items.
+    $inventory_items = $this->getInventoryItems();
+    $added_items = 0;
+
+    foreach ($inventory_items as $item) {
+      $item_id = $item->item_id;
+      $quantity_field = ['items', $item_id, 'quantity'];
+      $selected_quantity = $form_state->getValue($quantity_field);
+      $available_quantity = $this->getAvailableQuantity($item_id);
+
+      // Check if selected quantity exceeds available quantity.
+      if ($selected_quantity > 0 && $selected_quantity <= $available_quantity) {
+        // Insert the data into the item_vehicle table.
+        $this->database->insert('item_vehicle')
+          ->fields([
+            'vehicle_id' => $vehicle_id,
+            'item_id' => $item_id,
+            'quantity' => $selected_quantity,
+            'date' => $date,
+          ])
+          ->execute();
+
+        // Update the items table to subtract the selected quantity.
+        $this->database->update('items')
+          ->fields([
+            'quantity' => $available_quantity - $selected_quantity,
+          ])
+          ->condition('item_id', $item_id)
+          ->execute();
+
+        $added_items++;
+      }
+    }
+
+    // Display success message if items were added.
+    if ($added_items > 0) {
+      $this->messenger()->addStatus($this->formatPlural($added_items, 'One item added to the vehicle.', '@count items added to the vehicle.'));
+    }
+    $form_state->setRedirect('inventory_system.vehicle_overview');
   }
 
   /**
@@ -143,7 +190,7 @@ class AddToVehicleForm extends FormBase {
    */
   public function getInventoryItems($search_term = '') {
     $query = $this->database->select('items', 'i')
-      ->fields('i', ['item_id', 'title'])
+      ->fields('i', ['item_id', 'title', 'description'])
       ->condition('title', '%' . $search_term . '%', 'LIKE')
       ->execute()
       ->fetchAll();
