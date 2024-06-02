@@ -134,7 +134,20 @@ class AddToVehicleForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Validation logic...
+    $inventory_items = $this->getInventoryItems();
+    foreach ($inventory_items as $item) {
+      $item_id = $item->item_id;
+      $quantity_field = ['items', $item_id, 'quantity'];
+      $selected_quantity = $form_state->getValue($quantity_field);
+      $available_quantity = $this->getAvailableQuantity($item_id);
+      if ($selected_quantity < 0) {
+        $form_state->setErrorByName(implode('_', $quantity_field), $this->t('Quantity must be a non-negative value.'));
+      }
+      // Check if selected quantity exceeds available quantity.
+      if ($selected_quantity > $available_quantity) {
+        $form_state->setErrorByName(implode('_', $quantity_field), $this->t('Selected quantity exceeds available quantity for %item.', ['%item' => $item->title]));
+      }
+    }
   }
 
   /**
