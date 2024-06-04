@@ -1,16 +1,6 @@
 <?php
 
 /**
- * Implements hook_preprocess_HOOK() for menus.
- */
-function zottegemseDakwerken_preprocess_menu(&$variables) {
-  // The theme's machine name is used here to fetch the active theme settings.
-  $theme_name = \Drupal::theme()->getActiveTheme()->getName();
-  // Retrieve and set the logo URL from theme settings.
-  $variables['logo_url'] = theme_get_setting('logo.url', $theme_name);
-}
-
-/**
  * Implements hook_preprocess_HOOK() for layout_builder__section.html.twig.
  */
 function zottegemseDakwerken_preprocess_layout_builder__section(&$variables) {

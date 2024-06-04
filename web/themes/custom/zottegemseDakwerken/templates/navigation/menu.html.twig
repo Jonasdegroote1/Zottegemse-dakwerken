@@ -20,22 +20,30 @@
 #}
 {% import _self as menus %}
 
-{# Add the logo only if the 'main' menu is being rendered #}
-{# {% if menu_name == 'main' and logo_url %}
-  <div class="menu-logo">
-    <a href="{{ path('<front>') }}">
-      <img src="{{ logo_url }}" alt="Site Logo">
-    </a>
-  </div>
-{% endif %} #}
+<header class="main-header ">
+  <div class="main-header__inner container-xl">
+    <div class="menu-logo">
+      <a href="{{ path('<front>') }}">
+        <img src="{{ directory }}/images/logo.png" alt="Site Logo">
+      </a>
+    </div>
 
-{{ menus.menu_links(items, attributes, 0) }}
+    <div class="hamburger" onclick="toggleMenu()">
+      <img src="{{ directory }}/images/hamburger.svg" alt="Menu">
+    </div>
+
+    <nav class="menu-container" id="main-menu"> 
+      {{ menus.menu_links(items, attributes, 0) }}
+    </nav>
+  </div>
+</header>
+
 
 {% macro menu_links(items, attributes, menu_level) %}
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-      <ul{{ attributes.addClass('menu') }}>
+      <ul{{ attributes.addClass('menu main-menu') }}>
     {% else %}
       <ul class="menu">
     {% endif %}

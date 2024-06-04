@@ -28,12 +28,79 @@ h2 {
   margin: 0 auto;
 }
 
-header {
-  position: fixed;
-  z-index: 10;
-  width: 100%;
+.main-header {
+  background-color: #f8f8f8;
+  padding: 10px 20px;
+  background-color: #073e73;
+  position: sticky;
+  z-index: 1000;
 }
 
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 25px;
+  width: 35px;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+  .main-menu {
+    display: none;
+  }
+  .menu-container {
+    display: none;
+  }
+}
+.menu-active .main-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-logo img {
+  max-height: 50px;
+}
+
+.main-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.main-menu .menu-item {
+  margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+  .main-header__inner {
+    justify-content: space-evenly;
+  }
+  .main-menu {
+    flex-direction: column;
+    width: 100%;
+  }
+  .main-menu .menu-item {
+    margin: 10px 0;
+  }
+}
 .menu-logo, .menu {
   display: flex;
   align-items: center;
@@ -52,10 +119,9 @@ header {
   padding: 0;
   margin: 0 !important;
   height: 3rem;
-  background-color: #073e73;
 }
 .menu a {
-  color: #deeeff;
+  color: #b6deff;
   text-decoration: none;
   font-size: 0.75rem;
 }
