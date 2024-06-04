@@ -14,7 +14,7 @@ a {
   min-width: 15rem;
 
   @media (min-width: 768px) {
-    min-height: 25rem ;
+    min-height: 20rem ;
   }
 
 }
@@ -41,6 +41,7 @@ a {
 }
 
 .card-bottom, .icon-card-bottom {
+  padding: 1.5rem;
 
   h2 {
     margin: 0;

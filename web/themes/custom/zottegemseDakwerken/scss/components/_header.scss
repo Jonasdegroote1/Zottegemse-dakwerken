@@ -1,10 +1,9 @@
-
 .main-header {
   padding: 10px 20px;
   background-color: map-get($blue, 900);
   position: fixed;
   width: 100%;
-  z-index: 1000;
+  z-index: 1;
 }
 
 .main-header__inner {
@@ -18,35 +17,35 @@
   }
 }
 
-.menu-logo img {
+.nav-logo img {
   max-height: 50px; 
 }
 
-.main-menu {
+.main-nav {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
 }
 
-.main-menu .menu-item {
+.main-nav .nav-item {
   margin-left: 10px; 
 }
 
-.menu-logo, .menu {
+.nav-logo, .nav {
   display: flex;
   align-items: center; 
 }
 
-.menu-logo {
+.nav-logo {
   margin-right: 20px; 
 }
 
-.menu-logo img {
+.nav-logo img {
   height: 50px; 
 }
 
-.menu {
+.nav {
   list-style: none;
   padding: 0; 
   margin: 0 !important; 
@@ -64,7 +63,7 @@
   }
 }
 
-.menu-item {
+.nav-item {
   padding: 0 .5rem; 
 
   @media (min-width: 768px){
@@ -72,20 +71,20 @@
   }
 }
 
-.menu-item--active-trail a {
+.nav-item--active-trail a {
   color: map-get($blue, 200); 
   font-weight: bold;
 }
 
-.menu-item--expanded {
+.nav-item--expanded {
   position: relative;
 }
 
-.menu-item--expanded .menu {
+.nav-item--expanded .nav {
   display: none;
 }
 
-.menu-item--expanded:hover .menu {
+.nav-item--expanded:hover .nav {
   display: block; 
   position: absolute; 
   background-color: map-get($blue, 900); 
@@ -93,12 +92,12 @@
   z-index: 1000;
   height: auto;
 
-  .menu-item:hover {
+  .nav-item:hover {
     background-color:map-get($blue, 700) ; 
   }
 }
 
-.menu-item--expanded .menu-item {
+.nav-item--expanded .nav-item {
   padding: 10px 20px; 
 }
 
@@ -108,7 +107,11 @@
   clear: both;
 }
 
-.menu-item--expanded::marker {
+.nav-item::marker {
+  content: none;
+}
+
+.nav-item--expanded::after {
   content: "\25BC";
   position: absolute;
   right: 0;

@@ -41,7 +41,7 @@ h2 {
   background-color: #073e73;
   position: fixed;
   width: 100%;
-  z-index: 1000;
+  z-index: 1;
 }
 
 .main-header__inner {
@@ -56,73 +56,73 @@ h2 {
   }
 }
 
-.menu-logo img {
+.nav-logo img {
   max-height: 50px;
 }
 
-.main-menu {
+.main-nav {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
 }
 
-.main-menu .menu-item {
+.main-nav .nav-item {
   margin-left: 10px;
 }
 
-.menu-logo, .menu {
+.nav-logo, .nav {
   display: flex;
   align-items: center;
 }
 
-.menu-logo {
+.nav-logo {
   margin-right: 20px;
 }
 
-.menu-logo img {
+.nav-logo img {
   height: 50px;
 }
 
-.menu {
+.nav {
   list-style: none;
   padding: 0;
   margin: 0 !important;
   height: 3rem;
 }
-.menu a {
+.nav a {
   color: #b6deff;
   text-decoration: none;
   font-size: 0.75rem;
 }
-.menu .is-active {
+.nav .is-active {
   color: #b6deff !important;
   text-decoration: underline;
 }
 
-.menu-item {
+.nav-item {
   padding: 0 0.5rem;
 }
 @media (min-width: 768px) {
-  .menu-item {
+  .nav-item {
     padding: 0 1.5rem;
   }
 }
 
-.menu-item--active-trail a {
+.nav-item--active-trail a {
   color: #b6deff;
   font-weight: bold;
 }
 
-.menu-item--expanded {
+.nav-item--expanded {
   position: relative;
 }
 
-.menu-item--expanded .menu {
+.nav-item--expanded .nav {
   display: none;
 }
 
-.menu-item--expanded:hover .menu {
+.nav-item--expanded:hover .nav {
   display: block;
   position: absolute;
   background-color: #073e73;
@@ -130,11 +130,11 @@ h2 {
   z-index: 1000;
   height: auto;
 }
-.menu-item--expanded:hover .menu .menu-item:hover {
+.nav-item--expanded:hover .nav .nav-item:hover {
   background-color: #0057aa;
 }
 
-.menu-item--expanded .menu-item {
+.nav-item--expanded .nav-item {
   padding: 10px 20px;
 }
 
@@ -144,7 +144,11 @@ h2 {
   clear: both;
 }
 
-.menu-item--expanded::marker {
+.nav-item::marker {
+  content: none;
+}
+
+.nav-item--expanded::after {
   content: "▼";
   position: absolute;
   right: 0;
@@ -216,7 +220,7 @@ a {
 }
 @media (min-width: 768px) {
   .card {
-    min-height: 25rem;
+    min-height: 20rem;
   }
 }
 
@@ -240,6 +244,9 @@ a {
   min-height: 5rem;
 }
 
+.card-bottom, .icon-card-bottom {
+  padding: 1.5rem;
+}
 .card-bottom h2, .icon-card-bottom h2 {
   margin: 0;
   font-size: 1.5rem;
