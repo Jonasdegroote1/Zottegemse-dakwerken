@@ -1,6 +1,10 @@
+@charset "UTF-8";
 body {
   font-family: "Roboto", sans-serif;
   background-color: #eff7ff;
+}
+body p {
+  font-size: 1rem;
 }
 
 h2 {
@@ -28,50 +32,28 @@ h2 {
   margin: 0 auto;
 }
 
+.layout__region {
+  width: auto !important;
+}
+
 .main-header {
-  background-color: #f8f8f8;
   padding: 10px 20px;
   background-color: #073e73;
-  position: sticky;
-  z-index: 1000;
-}
-
-.hamburger {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 25px;
-  width: 35px;
-}
-
-.hamburger span {
-  display: block;
-  height: 3px;
+  position: fixed;
   width: 100%;
-  background-color: #333;
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
-  .main-menu {
-    display: none;
-  }
-  .menu-container {
-    display: none;
-  }
-}
-.menu-active .main-menu {
-  display: flex;
-  flex-direction: column;
+  z-index: 1000;
 }
 
 .main-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .main-header__inner {
+    flex-direction: row;
+  }
 }
 
 .menu-logo img {
@@ -86,21 +68,9 @@ h2 {
 }
 
 .main-menu .menu-item {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
-@media (max-width: 768px) {
-  .main-header__inner {
-    justify-content: space-evenly;
-  }
-  .main-menu {
-    flex-direction: column;
-    width: 100%;
-  }
-  .main-menu .menu-item {
-    margin: 10px 0;
-  }
-}
 .menu-logo, .menu {
   display: flex;
   align-items: center;
@@ -131,12 +101,21 @@ h2 {
 }
 
 .menu-item {
-  padding: 0 1rem;
+  padding: 0 0.5rem;
+}
+@media (min-width: 768px) {
+  .menu-item {
+    padding: 0 1.5rem;
+  }
 }
 
 .menu-item--active-trail a {
   color: #b6deff;
   font-weight: bold;
+}
+
+.menu-item--expanded {
+  position: relative;
 }
 
 .menu-item--expanded .menu {
@@ -165,8 +144,15 @@ h2 {
   clear: both;
 }
 
+.menu-item--expanded::marker {
+  content: "▼";
+  position: absolute;
+  right: 0;
+  color: #b6deff;
+}
+
 .hero-block {
-  height: calc(100vh - 5rem); /* corrected 100dvh to 100vh */
+  height: calc(50vh - 5rem);
   background-size: cover;
   background-position: center;
   color: #eff7ff;
@@ -175,6 +161,11 @@ h2 {
   align-items: center;
   justify-content: center;
 }
+@media (min-width: 768px) {
+  .hero-block {
+    height: calc(100vh - 5rem);
+  }
+}
 
 .hero-content {
   position: absolute;
@@ -182,7 +173,7 @@ h2 {
   bottom: 50%;
   width: 40rem;
   text-align: left;
-  transform: translateY(50%); /* Adjust for vertical centering */
+  transform: translateY(50%);
 }
 
 .hero-content h1 {
@@ -195,18 +186,17 @@ h2 {
   margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .hero-content {
-    left: 5%; /* Less offset for smaller screens */
-    width: 90%; /* More relative width for better fitting */
-    font-size: 90%; /* Slightly smaller text */
+    left: 5%;
+    width: 90%;
+    font-size: 90%;
   }
   .hero-content h1 {
-    font-size: 2.5rem; /* Smaller font size for the title */
+    font-size: 2.5rem;
   }
   .hero-content p {
-    font-size: 1.2rem; /* Smaller font size for the paragraph */
+    font-size: 1.2rem;
   }
 }
 .block-card-block {
@@ -219,32 +209,37 @@ a {
 
 .card {
   background-color: #eff7ff;
-  width: 100%;
   border-radius: 0.25rem;
   margin: 1rem;
-  min-height: 25rem;
+  min-height: 17rem;
+  min-width: 15rem;
+}
+@media (min-width: 768px) {
+  .card {
+    min-height: 25rem;
+  }
 }
 
 .card-top img {
   width: 100%;
-  max-height: 15rem;
-  aspect-ratio: 2/1;
+  max-height: 8rem;
+  aspect-ratio: 3/2;
   object-fit: cover;
   height: auto;
   border-radius: 0.25rem 0.25rem 0 0;
+}
+@media (min-width: 768px) {
+  .card-top img {
+    max-height: 15rem;
+    aspect-ratio: 2/1;
+  }
 }
 
 .icon-card {
   padding: 1.5rem;
   min-height: 5rem;
 }
-.icon-card img {
-  padding-left: 1.5rem;
-}
 
-.card-bottom, .icon-card-bottom {
-  padding: 1.5rem;
-}
 .card-bottom h2, .icon-card-bottom h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -410,7 +405,6 @@ a {
   display: block;
 }
 
-/* accordion_block/css/accordion_block.css */
 .accordion-button {
   padding: 10px 20px;
   background-color: #006ed2;
@@ -424,7 +418,7 @@ a {
 }
 
 .accordion-button:hover {
-  background-color: #0057aa; /* Optional: darker shade on hover */
+  background-color: #0057aa;
 }
 
 form {
@@ -435,7 +429,7 @@ form {
 .form--wrapper {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 80%;
 }
 
 .form--wrapper label {
@@ -449,6 +443,7 @@ form {
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid #006ed2;
+  background-color: #eff7ff;
 }
 
 .form--wrapper textarea {
@@ -456,17 +451,38 @@ form {
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid #006ed2;
+  background-color: #eff7ff;
 }
 
 .form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible {
   border-bottom: 1px solid #073e73;
 }
 
+.contact-us .layout__region--second {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eff7ff;
+}
+.contact-us .layout__region--second .block-webform {
+  width: 90vw;
+}
+@media (min-width: 768px) {
+  .contact-us .layout__region--second .block-webform {
+    width: 50vw;
+  }
+}
+.contact-us .layout__region--second form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .history-block {
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  position: relative; /* Ensure the container is positioned relative */
+  position: relative;
 }
 
 .history-block::after {
@@ -492,7 +508,7 @@ form {
   margin: 0;
 }
 .history-block__right p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -507,6 +523,34 @@ form {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.partners {
+  width: 100%;
+}
+.partners h2 {
+  padding-left: 1rem;
+}
+
+.partners .field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.partners .field__items {
+  margin-left: 1rem;
+  width: 80%;
+}
+
+.image-style-large {
+  width: 15.75rem;
+  height: 5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */

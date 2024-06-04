@@ -8,32 +8,39 @@ a {
 
 .card {
   background-color: map-get($blue, 50);
-  width: 100%;
   border-radius: 0.25rem;
   margin: 1rem;
-  min-height: 25rem ;
+  min-height: 17rem;
+  min-width: 15rem;
+
+  @media (min-width: 768px) {
+    min-height: 25rem ;
+  }
+
 }
 
 .card-top img {
   width: 100%;
-  max-height: 15rem;
-  aspect-ratio: 2 / 1;
+  max-height: 8rem;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   height: auto;
   border-radius: 0.25rem 0.25rem 0 0;
+
+  @media (min-width: 768px) {
+    max-height: 15rem;
+    aspect-ratio: 2/1;
+  }
 }
 
 .icon-card {
   padding: 1.5rem;
   min-height: 5rem ;
 
-  img{
-    padding-left: 1.5rem;
-  }
+
 }
 
 .card-bottom, .icon-card-bottom {
-  padding: 1.5rem;
 
   h2 {
     margin: 0;

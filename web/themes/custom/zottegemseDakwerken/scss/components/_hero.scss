@@ -1,5 +1,5 @@
 .hero-block {
-  height: calc(100vh - 5rem); /* corrected 100dvh to 100vh */
+  height: calc(50vh - 5rem); 
   background-size: cover;
   background-position: center;
   color: map-get($blue, 50 );
@@ -7,6 +7,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 768px){
+    height: calc(100vh - 5rem); 
+  }
+
 }
 
 .hero-content {
@@ -15,7 +20,7 @@
   bottom: 50%;
   width: 40rem;
   text-align: left;
-  transform: translateY(50%); /* Adjust for vertical centering */
+  transform: translateY(50%); 
 }
 
 .hero-content h1 {
@@ -28,19 +33,18 @@
   margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .hero-content {
-    left: 5%;  /* Less offset for smaller screens */
-    width: 90%; /* More relative width for better fitting */
-    font-size: 90%; /* Slightly smaller text */
+    left: 5%;  
+    width: 90%; 
+    font-size: 90%; 
   }
 
   .hero-content h1 {
-    font-size: 2.5rem; /* Smaller font size for the title */
+    font-size: 2.5rem; 
   }
 
   .hero-content p {
-    font-size: 1.2rem; /* Smaller font size for the paragraph */
+    font-size: 1.2rem; 
   }
 }

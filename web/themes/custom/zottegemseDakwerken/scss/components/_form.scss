@@ -6,7 +6,7 @@ form {
 .form--wrapper {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 80%;
 }
 
 .form--wrapper label {
@@ -20,6 +20,7 @@ form {
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid map-get($blue, 600 );
+  background-color: map-get($blue, 50 );
 }
 
 .form--wrapper textarea {
@@ -27,8 +28,31 @@ form {
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid map-get($blue, 600 );
+    background-color: map-get($blue, 50 );
+
 }
 
 .form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible{
   border-bottom: 1px solid map-get($blue, 900 );
+}
+
+.contact-us .layout__region--second {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: map-get($blue, 50);
+
+  .block-webform {
+    width: 90vw;
+
+    @media (min-width: 768px){
+      width: 50vw;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 }

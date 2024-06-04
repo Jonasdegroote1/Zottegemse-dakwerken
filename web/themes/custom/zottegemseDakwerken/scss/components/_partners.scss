@@ -1,0 +1,28 @@
+.partners {
+  width: 100%;
+  
+  h2 {
+    padding-left: 1rem;
+  }
+}
+
+.partners .field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.partners .field__items {
+  margin-left: 1rem;
+  width: 80%;
+}
+
+.image-style-large {
+  width: 15.75rem;
+  height: 5rem;
+}

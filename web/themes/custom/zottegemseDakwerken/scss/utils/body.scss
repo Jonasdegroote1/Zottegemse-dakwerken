@@ -1,6 +1,10 @@
 body {
   font-family : "Roboto", sans-serif;
   background-color: map-get($blue, 50);
+
+  p {
+    font-size: 1rem;
+  }
 }
 
 h2 {

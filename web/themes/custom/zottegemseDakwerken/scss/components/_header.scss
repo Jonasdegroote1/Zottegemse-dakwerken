@@ -1,51 +1,21 @@
 
 .main-header {
-  background-color: #f8f8f8; 
   padding: 10px 20px;
   background-color: map-get($blue, 900);
-  position: sticky;
-  z-index: 1000;
-}
-
-.hamburger {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 25px;
-  width: 35px;
-}
-
-.hamburger span {
-  display: block;
-  height: 3px;
+  position: fixed;
   width: 100%;
-  background-color: #333;
-}
-
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
-
-  .main-menu {
-    display: none;
-  }
-
-  .menu-container {
-    display: none;
-  }
-}
-
-.menu-active .main-menu {
-  display: flex;
-  flex-direction: column;
+  z-index: 1000;
 }
 
 .main-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row; 
+  }
 }
 
 .menu-logo img {
@@ -60,22 +30,7 @@
 }
 
 .main-menu .menu-item {
-  margin-left: 20px; 
-}
-
-@media (max-width: 768px) {
-  .main-header__inner {
-    justify-content: space-evenly;
-  }
-
-  .main-menu {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .main-menu .menu-item {
-    margin: 10px 0; 
-  }
+  margin-left: 10px; 
 }
 
 .menu-logo, .menu {
@@ -110,12 +65,20 @@
 }
 
 .menu-item {
-  padding: 0 1rem; 
+  padding: 0 .5rem; 
+
+  @media (min-width: 768px){
+    padding: 0 1.5rem; 
+  }
 }
 
 .menu-item--active-trail a {
   color: map-get($blue, 200); 
   font-weight: bold;
+}
+
+.menu-item--expanded {
+  position: relative;
 }
 
 .menu-item--expanded .menu {
@@ -143,4 +106,11 @@
   content: "";
   display: table;
   clear: both;
+}
+
+.menu-item--expanded::marker {
+  content: "\25BC";
+  position: absolute;
+  right: 0;
+  color: map-get($blue, 200);
 }
