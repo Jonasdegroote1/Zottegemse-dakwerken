@@ -583,7 +583,8 @@ form {
 }
 
 .footer-top__logo img {
-  width: 100px;
+  width: 6.25rem;
+  height: 2.5rem;
 }
 
 .footer-top__contact {
