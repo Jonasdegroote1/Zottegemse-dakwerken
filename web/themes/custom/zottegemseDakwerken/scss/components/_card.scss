@@ -13,7 +13,7 @@ a {
   min-height: 17rem;
   min-width: 15rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: 48rem ) {
     min-height: 20rem ;
   }
 
@@ -27,7 +27,7 @@ a {
   height: auto;
   border-radius: 0.25rem 0.25rem 0 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: 48rem ) {
     max-height: 15rem;
     aspect-ratio: 2/1;
   }

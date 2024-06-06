@@ -50,7 +50,7 @@ h2 {
   justify-content: space-between;
   flex-direction: column;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .main-header__inner {
     flex-direction: row;
   }
@@ -103,7 +103,7 @@ h2 {
 .nav-item {
   padding: 0 0.5rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .nav-item {
     padding: 0 1.5rem;
   }
@@ -165,7 +165,7 @@ h2 {
   align-items: center;
   justify-content: center;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .hero-block {
     height: calc(100vh - 5rem);
   }
@@ -218,7 +218,7 @@ a {
   min-height: 17rem;
   min-width: 15rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .card {
     min-height: 20rem;
   }
@@ -232,7 +232,7 @@ a {
   height: auto;
   border-radius: 0.25rem 0.25rem 0 0;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .card-top img {
     max-height: 15rem;
     aspect-ratio: 2/1;
@@ -477,7 +477,7 @@ form {
 .contact-us .layout__region--second .block-webform {
   width: 90vw;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .contact-us .layout__region--second .block-webform {
     width: 50vw;
   }
@@ -572,8 +572,14 @@ form {
 
 .footer-top {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+@media (min-width: 48rem) {
+  .footer-top {
+    flex-direction: row;
+  }
 }
 
 .footer-top__left {

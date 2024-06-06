@@ -45,7 +45,7 @@ form {
   .block-webform {
     width: 90vw;
 
-    @media (min-width: 768px){
+    @media (min-width: 48rem ){
       width: 50vw;
     }
   }
