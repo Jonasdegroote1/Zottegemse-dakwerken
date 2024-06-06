@@ -498,7 +498,7 @@ form {
 .history-block::after {
   content: "";
   position: absolute;
-  left: 2.75%;
+  left: 2%;
   bottom: 0;
   transform: translateX(-50%);
   width: 2px;
