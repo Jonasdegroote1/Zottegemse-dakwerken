@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9714373cded6dcfafe3708921580ca7",
+    "content-hash": "cd787268cb875f77814ba8323414bab8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1900,57 +1900,6 @@
             "homepage": "https://www.drupal.org/project/entity_reference_revisions",
             "support": {
                 "source": "https://git.drupalcode.org/project/entity_reference_revisions"
-            }
-        },
-        {
-            "name": "drupal/gs",
-            "version": "1.0.0-beta1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/gs.git",
-                "reference": "1.0.0-beta1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/gs-1.0.0-beta1.zip",
-                "reference": "1.0.0-beta1",
-                "shasum": "c784db101289e1f4205bd6707043d0d84d58e700"
-            },
-            "require": {
-                "drupal/core": "^9 || ^10"
-            },
-            "require-dev": {
-                "drupal/paragraphs": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.0.0-beta1",
-                    "datestamp": "1690901580",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "hmendes",
-                    "homepage": "https://www.drupal.org/user/3673677"
-                },
-                {
-                    "name": "rafaolf",
-                    "homepage": "https://www.drupal.org/user/3057671"
-                }
-            ],
-            "description": "Module to integrate GSAP with Drupal",
-            "homepage": "https://www.drupal.org/project/gs",
-            "support": {
-                "source": "https://git.drupalcode.org/project/gs"
             }
         },
         {
@@ -7456,7 +7405,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "drupal/gs": 10,
         "drupal/tailwindcss": 15
     },
     "prefer-stable": true,

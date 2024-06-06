@@ -156,7 +156,7 @@ h2 {
 }
 
 .hero-block {
-  height: calc(50vh - 5rem);
+  height: calc(75vh - 5rem);
   background-size: cover;
   background-position: center;
   color: #eff7ff;
@@ -242,6 +242,9 @@ a {
 .icon-card {
   padding: 1.5rem;
   min-height: 5rem;
+}
+.icon-card img {
+  padding-left: 1.5rem;
 }
 
 .card-bottom, .icon-card-bottom {
