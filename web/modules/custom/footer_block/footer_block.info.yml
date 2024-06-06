@@ -1,0 +1,9 @@
+name: 'Footer Block'
+type: module
+description: 'Provides a custom footer block.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:block
+  - drupal:file
+  - drupal:menu_ui
