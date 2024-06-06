@@ -40,7 +40,7 @@ h2 {
   padding: 10px 20px;
   background-color: #073e73;
   position: fixed;
-  width: 100%;
+  width: 100svw;
   z-index: 1;
 }
 
@@ -214,7 +214,6 @@ a {
 .card {
   background-color: #eff7ff;
   border-radius: 0.25rem;
-  margin: 1rem;
   min-height: 17rem;
   min-width: 15rem;
 }
@@ -536,7 +535,7 @@ form {
 }
 
 .block-inline-blockpicture-gallery {
-  width: 100%;
+  width: 90%;
 }
 .block-inline-blockpicture-gallery h2 {
   padding-left: 3rem;
