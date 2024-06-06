@@ -27,7 +27,7 @@ h2 {
   white-space: nowrap;
 }
 
-.container-xl {
+.container-xl, .layout {
   max-width: 90rem;
   margin: 0 auto;
 }
@@ -535,11 +535,11 @@ form {
   align-items: center;
 }
 
-.partners {
+.block-inline-blockpicture-gallery {
   width: 100%;
 }
-.partners h2 {
-  padding-left: 1rem;
+.block-inline-blockpicture-gallery h2 {
+  padding-left: 3rem;
 }
 
 .partners .field {
