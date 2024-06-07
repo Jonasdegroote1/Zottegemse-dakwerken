@@ -7,6 +7,8 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class VehicleControllerOverview extends ControllerBase {
   /**
@@ -48,97 +50,124 @@ class VehicleControllerOverview extends ControllerBase {
 /**
   * Displays a list of vehicles grouped by vehicle_id and date.
   */
-  public function overviewPage() {
+  public function overviewPage(Request $request) {
     // Retrieve the list of vehicles.
     $grouped_vehicles = $this->vehicleList();
 
-    // Get today's date in the desired format.
-    $today = date('Y-m-d');
+    // Get today's date or the date from the request if available.
+    $today = $request->query->get('date') ? $request->query->get('date') : date('Y-m-d');
     $formatted_today = date('F j, Y', strtotime($today)); // e.g., "June 7, 2024"
+
+    // Calculate previous and next dates, considering infinite navigation.
+    $previous_date = date('Y-m-d', strtotime('-1 day', strtotime($today)));
+    $next_date = date('Y-m-d', strtotime('+1 day', strtotime($today)));
 
     // Build the table.
     $header = [
-      'name' => $this->t('Vehicle name'),
-      'quantity' => $this->t('Quantity'),
-      'date' => $this->t('Date'),
-      'details' => $this->t('Details'), // Added column for details
+        'name' => $this->t('Vehicle name'),
+        'quantity' => $this->t('Quantity'),
+        'date' => $this->t('Date'),
+        'details' => $this->t('Details'), // Added column for details
     ];
 
     $rows = [];
     foreach ($grouped_vehicles as $vehicle_id => $vehicles) {
-      foreach ($vehicles as $date => $items) {
-        // Skip vehicles not for today.
-        if ($date !== $today) {
-          continue;
-        }
+        foreach ($vehicles as $date => $items) {
+            // Skip vehicles not for the selected date.
+            if ($date !== $today) {
+                continue;
+            }
 
-        // Construct row for each group.
-        $vehicle_name = reset($items)->vehicle_name;
+            // Construct row for each group.
+            $vehicle_name = reset($items)->vehicle_name;
 
-        $row = [
-          'name' => $vehicle_name, // Using $vehicle_id for the ID
-          'quantity' => 0,
-          'date' => $date,
-          'details' => [
-            'data' => [
-              '#type' => 'link',
-              '#title' => $this->t('View Details'),
-              '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' => $date]),
-            ],
-          ],
-        ];
-        // Accumulate quantities for each group.
-        foreach ($items as $item) {
-          $row['quantity'] += $item->quantity;
+            $row = [
+                'name' => $vehicle_name, // Using $vehicle_id for the ID
+                'quantity' => 0,
+                'date' => $date,
+                'details' => [
+                    'data' => [
+                        '#type' => 'link',
+                        '#title' => $this->t('View Details'),
+                        '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' => $date]),
+                    ],
+                ],
+            ];
+            // Accumulate quantities for each group.
+            foreach ($items as $item) {
+                $row['quantity'] += $item->quantity;
+            }
+            $rows[] = $row;
         }
-        $rows[] = $row;
-      }
     }
 
     $add_button = [
-      '#type' => 'link',
-      '#title' => $this->t('Add items to vehicle'),
-      '#url' => Url::fromRoute('inventory_system.add_to_vehicle'),
-      '#attributes' => [
-        'class' => ['button', 'button--primary'],
-      ],
+        '#type' => 'link',
+        '#title' => $this->t('Add items to vehicle'),
+        '#url' => Url::fromRoute('inventory_system.add_to_vehicle'),
+        '#attributes' => [
+            'class' => ['button', 'button--primary'],
+        ],
     ];
 
     $add_vehicle_button = [
-      '#type' => 'link',
-      '#title' => $this->t('Add Vehicle'),
-      '#url' => Url::fromRoute('inventory_system.vehicle_add_form'),
-      '#attributes' => [
-        'class' => ['button', 'button--primary'],
-      ],
+        '#type' => 'link',
+        '#title' => $this->t('Add Vehicle'),
+        '#url' => Url::fromRoute('inventory_system.vehicle_add_form'),
+        '#attributes' => [
+            'class' => ['button', 'button--primary'],
+        ],
     ];
 
     $inventory_button = [
-      '#type' => 'link',
-      '#title' => $this->t('View Inventory'),
-      '#url' => Url::fromRoute('inventory_system.list'),
-      '#attributes' => [
-        'class' => ['button', 'button--primary'],
-      ],
+        '#type' => 'link',
+        '#title' => $this->t('View Inventory'),
+        '#url' => Url::fromRoute('inventory_system.list'),
+        '#attributes' => [
+            'class' => ['button', 'button--primary'],
+        ],
+    ];
+
+    // Buttons for navigating to the previous and next days.
+    $previous_day_button = [
+        '#type' => 'link',
+        '#title' => $this->t('Previous Day'),
+        '#url' => Url::fromRoute('inventory_system.vehicle_overview', ['date' => $previous_date]),
+        '#attributes' => [
+            'class' => ['button', 'button--secondary'],
+        ],
+    ];
+
+    $next_day_button = [
+        '#type' => 'link',
+        '#title' => $this->t('Next Day'),
+        '#url' => Url::fromRoute('inventory_system.vehicle_overview', ['date' => $next_date]),
+        '#attributes' => [
+            'class' => ['button', 'button--secondary'],
+        ],
     ];
 
     return [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['vehicle-list-container']],
-      'date' => [
-        '#markup' => '<h2>' . $this->t('Vehicles for @date', ['@date' => $formatted_today]) . '</h2>',
-      ],
-      'add_button' => $add_button,
-      'add_vehicle_button' => $add_vehicle_button,
-      'inventory_button' => $inventory_button,
-      'table' => [
-        '#type' => 'table',
-        '#header' => $header,
-        '#rows' => $rows,
-        '#empty' => $this->t('No vehicles found.'),
-      ],
+        '#type' => 'container',
+        '#attributes' => ['class' => ['vehicle-list-container']],
+        'date' => [
+            '#markup' => '<h2>' . $this->t('Vehicles for @date', ['@date' => $formatted_today]) . '</h2>',
+        ],
+        'add_button' => $add_button,
+        'add_vehicle_button' => $add_vehicle_button,
+        'inventory_button' => $inventory_button,
+        'previous_day_button' => $previous_day_button,
+        'next_day_button' => $next_day_button,
+        'table' => [
+            '#type' => 'table',
+            '#header' => $header,
+            '#rows' => $rows,
+            '#empty' => $this->t('No vehicles found.'),
+        ],
     ];
   }
+
+
 
 /**
  * Displays detailed information about a specific vehicle and date.
