@@ -38,7 +38,7 @@ function inventory_system_install() {
           'not null' => TRUE,
           'description' => 'The auto-incremented ID for an inventory item.',
         ],
-        'item_name' => [
+        'title' => [
           'type' => 'varchar',
           'length' => 255,
           'not null' => TRUE,
