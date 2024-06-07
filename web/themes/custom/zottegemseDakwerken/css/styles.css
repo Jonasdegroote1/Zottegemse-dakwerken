@@ -38,9 +38,9 @@ h2 {
 
 .main-header {
   padding: 10px 20px;
-  background-color: #073e73;
+  background-color: #003366; /* example color */
   position: fixed;
-  width: 100svw;
+  width: 100vw;
   z-index: 1;
 }
 
@@ -91,12 +91,12 @@ h2 {
   height: 3rem;
 }
 .nav a {
-  color: #b6deff;
+  color: #99ccff; /* example color */
   text-decoration: none;
   font-size: 0.75rem;
 }
 .nav .is-active {
-  color: #b6deff !important;
+  color: #99ccff !important; /* example color */
   text-decoration: underline;
 }
 
@@ -110,32 +110,19 @@ h2 {
 }
 
 .nav-item--active-trail a {
-  color: #b6deff;
+  color: #99ccff; /* example color */
   font-weight: bold;
 }
 
 .nav-item--expanded {
   position: relative;
 }
+.nav-item--expanded :hover .nav {
+  display: block;
+}
 
 .nav-item--expanded .nav {
   display: none;
-}
-
-.nav-item--expanded:hover .nav {
-  display: block;
-  position: absolute;
-  background-color: #073e73;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  height: auto;
-}
-.nav-item--expanded:hover .nav .nav-item:hover {
-  background-color: #0057aa;
-}
-
-.nav-item--expanded .nav-item {
-  padding: 10px 20px;
 }
 
 .clearfix::after {
@@ -152,9 +139,120 @@ h2 {
   content: "▼";
   position: absolute;
   right: 0;
-  color: #b6deff;
+  color: #99ccff; /* example color */
 }
 
+.hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 10;
+  padding-left: 1.5rem;
+}
+
+.hamburger img {
+  width: 30px;
+  height: 30px;
+}
+
+.nav-container {
+  display: none;
+}
+@media (min-width: 48rem) {
+  .nav-container {
+    display: block !important;
+  }
+}
+
+.nav-container.active {
+  display: block;
+  position: fixed;
+  top: 8%;
+  left: 0;
+  width: 100%;
+  height: 92%;
+  background-color: #003366; /* example color */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-container.active .nav {
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+}
+
+.nav-container.active .nav-item {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.nav-container.active .nav-item--expanded .nav {
+  display: block;
+  position: static;
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+  margin: 0;
+}
+
+.nav-container.active .nav-item--expanded .nav-item {
+  padding: 0;
+}
+
+@media (max-width: 48rem) {
+  .hamburger {
+    display: block;
+  }
+  .nav-container {
+    display: none;
+    flex-direction: column;
+  }
+  .nav-container.active {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+.nav-container.active .nav-item--expanded::after {
+  display: none;
+}
+
+.nav-container.active .nav-item--expanded .nav-item {
+  margin: 0;
+  margin-top: 1rem;
+}
+
+.close-btn {
+  display: none;
+  cursor: pointer;
+  color: white;
+}
+
+.hamburger.active .close-btn {
+  display: block;
+}
+
+/* Add the hover effect for expanded items at min-width: 48rem */
+@media (min-width: 48rem) {
+  .nav-item--expanded:hover .nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    background-color: #073e73; /* example color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: auto;
+    margin: 0;
+  }
+  .nav-item--expanded:hover .nav .nav-item {
+    padding: 1rem;
+    margin: 0;
+  }
+  .nav-item--expanded:hover .nav .nav-item:hover {
+    background-color: #0057aa;
+  }
+}
 .hero-block {
   height: calc(75vh - 5rem);
   background-size: cover;

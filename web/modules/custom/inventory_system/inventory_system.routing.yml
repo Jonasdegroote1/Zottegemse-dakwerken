@@ -142,7 +142,7 @@ inventory_system.vehicle_overview:
     _controller: '\Drupal\inventory_system\Controller\VehicleControllerOverview::overviewPage'
     _title: 'Vehicle Overview'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'
 
 inventory_system.vehicle_detail_page:
   path: '/admin/vehicles/{vehicle_id}/{date}'
@@ -150,4 +150,4 @@ inventory_system.vehicle_detail_page:
     _controller: '\Drupal\inventory_system\Controller\VehicleControllerOverview::detailPage'
     _title: 'Vehicle Detail'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'

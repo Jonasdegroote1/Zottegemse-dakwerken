@@ -8,6 +8,7 @@ global-js:
   version: 1.x
   js:
     js/components/accordion.js: {}
+    js/components/hamburger.js: {}
     js/animations/fade-in.js: {}
     js/animations/horizontal-scroll.js: {}
 
