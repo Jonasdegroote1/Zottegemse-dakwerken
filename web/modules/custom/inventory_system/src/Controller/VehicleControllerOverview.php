@@ -52,6 +52,10 @@ class VehicleControllerOverview extends ControllerBase {
     // Retrieve the list of vehicles.
     $grouped_vehicles = $this->vehicleList();
 
+    // Get today's date in the desired format.
+    $today = date('Y-m-d');
+    $formatted_today = date('F j, Y', strtotime($today)); // e.g., "June 7, 2024"
+
     // Build the table.
     $header = [
       'name' => $this->t('Vehicle name'),
@@ -63,8 +67,12 @@ class VehicleControllerOverview extends ControllerBase {
     $rows = [];
     foreach ($grouped_vehicles as $vehicle_id => $vehicles) {
       foreach ($vehicles as $date => $items) {
-        // Construct row for each group.
+        // Skip vehicles not for today.
+        if ($date !== $today) {
+          continue;
+        }
 
+        // Construct row for each group.
         $vehicle_name = reset($items)->vehicle_name;
 
         $row = [
@@ -75,7 +83,7 @@ class VehicleControllerOverview extends ControllerBase {
             'data' => [
               '#type' => 'link',
               '#title' => $this->t('View Details'),
-              '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' =>$date]),
+              '#url' => Url::fromRoute('inventory_system.vehicle_detail_page', ['vehicle_id' => $vehicle_id, 'date' => $date]),
             ],
           ],
         ];
@@ -85,6 +93,7 @@ class VehicleControllerOverview extends ControllerBase {
         }
         $rows[] = $row;
       }
+    }
 
     $add_button = [
       '#type' => 'link',
@@ -93,8 +102,7 @@ class VehicleControllerOverview extends ControllerBase {
       '#attributes' => [
         'class' => ['button', 'button--primary'],
       ],
-      ];
-    }
+    ];
 
     $add_vehicle_button = [
       '#type' => 'link',
@@ -117,6 +125,9 @@ class VehicleControllerOverview extends ControllerBase {
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['vehicle-list-container']],
+      'date' => [
+        '#markup' => '<h2>' . $this->t('Vehicles for @date', ['@date' => $formatted_today]) . '</h2>',
+      ],
       'add_button' => $add_button,
       'add_vehicle_button' => $add_vehicle_button,
       'inventory_button' => $inventory_button,
@@ -127,9 +138,7 @@ class VehicleControllerOverview extends ControllerBase {
         '#empty' => $this->t('No vehicles found.'),
       ],
     ];
-
   }
-
 
 /**
  * Displays detailed information about a specific vehicle and date.
