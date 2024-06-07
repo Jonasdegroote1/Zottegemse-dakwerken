@@ -671,10 +671,10 @@ form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 }
 @media (min-width: 48rem) {
   .footer-top {
+    align-items: center;
     flex-direction: row;
   }
 }
@@ -709,6 +709,7 @@ form {
 .footer-top__menu-item {
   margin-bottom: 10px;
   padding: 0.5rem;
+  text-align: left;
 }
 .footer-top__menu-item a {
   color: #deeeff;
