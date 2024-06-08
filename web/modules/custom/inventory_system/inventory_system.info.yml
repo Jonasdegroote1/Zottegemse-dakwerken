@@ -6,3 +6,4 @@ package: Custom
 
 libraries:
   - inventory_system/inventory_form
+  - inventory_system/css

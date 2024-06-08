@@ -1,0 +1,9 @@
+.low-quantity {
+  background-color: #f87b7b ; /* Light red background */
+}
+
+.category-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #028df5;
+}

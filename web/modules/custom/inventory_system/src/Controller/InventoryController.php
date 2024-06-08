@@ -19,27 +19,34 @@ class InventoryController extends ControllerBase {
   protected $database;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a new InventoryController object.
    *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
   public function __construct(Connection $database, MessengerInterface $messenger) {
     $this->database = $database;
     $this->messenger = $messenger;
   }
 
-
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-        $container->get('database'),
-        $container->get('messenger')
+      $container->get('database'),
+      $container->get('messenger')
     );
   }
-
 
   /**
    * Displays a list of inventory items.
@@ -50,68 +57,75 @@ class InventoryController extends ControllerBase {
       ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'category_id'])
       ->orderBy('category_id');
 
-    // Execute the query and fetch results
+    // Execute the query and fetch results.
     $results = $query->execute()->fetchAll();
 
-    // Initialize an array to hold items grouped by category
+    // Initialize an array to hold items grouped by category.
     $items_by_category = [];
 
     foreach ($results as $item) {
-      // Fetch category name based on category_id
+      // Fetch category name based on category_id.
       $category_name = $this->getCategoryName($item->category_id);
 
-      // Add the item to the respective category
+      // Add the item to the respective category.
       $items_by_category[$category_name][] = [
         'item_id' => $item->item_id,
         'item_name' => $item->title,
         'description' => $item->description,
         'quantity' => $item->quantity,
         'location' => $item->location,
-        // Include other fields as needed
+        // Include other fields as needed.
       ];
     }
 
-    // Render items grouped by category
+    // Render items grouped by category.
     $rows = [];
 
     foreach ($items_by_category as $category_name => $items) {
-      // Render category title
+      // Render category title.
       $rows[] = [
         'data' => [
-          'item_name' => $category_name,
-          // Add empty cells for other columns
+          'item_name' => [
+            'data' => $category_name,
+            'colspan' => 5, // Adjust colspan based on the number of columns.
+          ],
         ],
-        'class' => ['category-row'],
+        'class' => ['category-row', 'category-name'],
       ];
 
-      // Render items within the category
+      // Render items within the category.
       foreach ($items as $item) {
         $edit_url = Url::fromRoute('inventory_system.edit_form', ['item_id' => $item['item_id']]);
         $edit_link = Link::fromTextAndUrl($this->t('Edit'), $edit_url);
         $delete_url = Url::fromRoute('inventory_system.delete_item', ['item_id' => $item['item_id']]);
         $delete_link = Link::fromTextAndUrl($this->t('Delete'), $delete_url);
 
+        $quantity_class = $this->getQuantityClass($item['quantity']);
+
         $rows[] = [
-          'item_name' => $item['item_name'],
-          'description' => $item['description'],
-          'quantity' => $item['quantity'],
-          'location' => $item['location'],
-          // Include other fields as needed
-          'operations' => [
-            'data' => [
-              '#type' => 'operations',
-              '#links' => [
-                'edit' => [
-                  'title' => $edit_link->getText(),
-                  'url' => $edit_link->getUrl(),
-                ],
-                'delete' => [
-                  'title' => $delete_link->getText(),
-                  'url' => $delete_link->getUrl(),
+          'data' => [
+            'item_name' => $item['item_name'],
+            'description' => $item['description'],
+            'quantity' => $item['quantity'],
+            'location' => $item['location'],
+            // Include other fields as needed.
+            'operations' => [
+              'data' => [
+                '#type' => 'operations',
+                '#links' => [
+                  'edit' => [
+                    'title' => $edit_link->getText(),
+                    'url' => $edit_link->getUrl(),
+                  ],
+                  'delete' => [
+                    'title' => $delete_link->getText(),
+                    'url' => $delete_link->getUrl(),
+                  ],
                 ],
               ],
             ],
           ],
+          'class' => [$quantity_class],
         ];
       }
     }
@@ -143,7 +157,6 @@ class InventoryController extends ControllerBase {
       ],
     ];
 
-
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['inventory-list-container']],
@@ -155,6 +168,11 @@ class InventoryController extends ControllerBase {
         '#header' => $this->getTableHeader(),
         '#rows' => $rows,
         '#empty' => $this->t('No inventory items found.'),
+      ],
+      '#attached' => [
+        'library' => [
+          'inventory_system/css',
+        ],
       ],
     ];
   }
@@ -169,7 +187,7 @@ class InventoryController extends ControllerBase {
       'quantity' => $this->t('Quantity'),
       'location' => $this->t('Location'),
       'operations' => $this->t('Operations'),
-      // Include other fields as needed
+      // Include other fields as needed.
     ];
   }
 
@@ -177,8 +195,8 @@ class InventoryController extends ControllerBase {
    * Helper function to fetch category name based on category ID.
    */
   private function getCategoryName($category_id) {
-    // Fetch category name from the 'categories' table based on category_id
-    // Adjust this query based on your actual database schema
+    // Fetch category name from the 'categories' table based on category_id.
+    // Adjust this query based on your actual database schema.
     $category_name = $this->database->select('categories', 'c')
       ->fields('c', ['title'])
       ->condition('c.category_id', $category_id)
@@ -189,12 +207,22 @@ class InventoryController extends ControllerBase {
   }
 
   /**
+   * Helper function to get the CSS class based on item quantity.
+   */
+  private function getQuantityClass($quantity) {
+    if ($quantity < 50) {
+      return 'low-quantity';
+    }
+    return '';
+  }
+
+  /**
    * Deletes an inventory item.
    *
    * @param int $item_id
    *   The ID of the item to delete.
    */
-public function deleteItem($item_id) {
+  public function deleteItem($item_id) {
     // Check if the item exists.
     $item_exists = $this->database->select('items', 'i')
       ->fields('i', ['item_id'])

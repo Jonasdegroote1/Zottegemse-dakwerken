@@ -4,3 +4,9 @@ inventory_form:
     js/inventory_form.js: {}
   dependencies:
     - core/jquery
+
+css: 
+  version: 1.x
+  css:
+    theme:
+      css/inventory.css: {}
