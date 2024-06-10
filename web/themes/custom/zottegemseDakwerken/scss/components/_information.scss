@@ -12,9 +12,13 @@
 @media (min-width: 48rem){
   .layout--threecol-section  {
     padding: 2rem;
+    max-width: 90rem;
+    margin: 0 auto;
   }
   .layout--twocol-section {
     padding: 3rem;
+    max-width: 90rem;
+    margin: 0 auto;
   }
 }
 
@@ -23,7 +27,6 @@
   padding: 1rem;
   
   @media (min-width: 48rem){
-    height: 40rem;
     display: flex;
     padding: 2rem;
 
@@ -43,7 +46,7 @@
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin-bottom: 1rem;
     color: map-get($blue, 500);
   }
@@ -51,6 +54,16 @@
   @media (min-width: 48rem){
     padding: 0 3rem;
 
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (min-width: 65rem){
     h2 {
       font-size: 3rem;
     }

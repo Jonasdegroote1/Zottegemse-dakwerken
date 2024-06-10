@@ -27,13 +27,9 @@ h2 {
   white-space: nowrap;
 }
 
-.container-xl, .layout {
+.container-xl, .layout__region {
   max-width: 90rem;
   margin: 0 auto;
-}
-
-.layout__region {
-  width: auto !important;
 }
 
 .main-header {
@@ -373,6 +369,31 @@ a {
   background-color: #0057aa;
 }
 
+.layout.layout--onecol:has(.block-card-block) {
+  background-color: #006ed2;
+}
+
+.layout.layout--onecol:has(.block-card-block) .layout__region {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 4rem 0;
+  justify-content: space-around;
+  width: 90%;
+}
+@media (min-width: 32rem) {
+  .layout.layout--onecol:has(.block-card-block) .layout__region {
+    gap: 1rem;
+  }
+}
+@media (min-width: 48rem) {
+  .layout.layout--onecol:has(.block-card-block) .layout__region {
+    gap: 2rem;
+    justify-content: start;
+  }
+}
+
 .icon {
   height: 1.5rem;
   width: 1.5rem;
@@ -390,9 +411,13 @@ a {
 @media (min-width: 48rem) {
   .layout--threecol-section {
     padding: 2rem;
+    max-width: 90rem;
+    margin: 0 auto;
   }
   .layout--twocol-section {
     padding: 3rem;
+    max-width: 90rem;
+    margin: 0 auto;
   }
 }
 .info-block {
@@ -400,7 +425,6 @@ a {
 }
 @media (min-width: 48rem) {
   .info-block {
-    height: 40rem;
     display: flex;
     padding: 2rem;
   }
@@ -416,7 +440,7 @@ a {
   color: #004786;
 }
 .info-block__content h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-bottom: 1rem;
   color: #028df5;
 }
@@ -424,6 +448,14 @@ a {
   .info-block__content {
     padding: 0 3rem;
   }
+  .info-block__content h2 {
+    font-size: 2.5rem;
+  }
+  .info-block__content h3 {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 65rem) {
   .info-block__content h2 {
     font-size: 3rem;
   }
