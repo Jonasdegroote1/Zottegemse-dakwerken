@@ -701,11 +701,10 @@ form {
   padding: 1.5rem;
 }
 
-@media (min-width: 48rem) {
-  .field__items {
-    flex-wrap: nowrap;
-  }
+.field__items {
+  flex-wrap: wrap;
 }
+
 .partners .field__items {
   margin-left: 1rem;
   width: 80%;

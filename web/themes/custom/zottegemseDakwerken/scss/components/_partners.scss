@@ -18,10 +18,8 @@
 }
 
 
-@media (min-width: 48rem) {
-  .field__items{
-    flex-wrap: nowrap;
-  }
+.field__items {
+  flex-wrap: wrap;
 }
 
 .partners .field__items {
