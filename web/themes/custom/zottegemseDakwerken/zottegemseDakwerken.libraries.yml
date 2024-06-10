@@ -11,7 +11,6 @@ global-js:
     js/components/hamburger.js: {}
     js/animations/fade-in.js: {}
     js/animations/horizontal-scroll.js: {}
-    js/animations/flip.js: {}
 
 gsap:
   version: 3.x
