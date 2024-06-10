@@ -89,7 +89,7 @@ h2 {
 .nav a {
   color: #99ccff; /* example color */
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 .nav .is-active {
   color: #99ccff !important; /* example color */
