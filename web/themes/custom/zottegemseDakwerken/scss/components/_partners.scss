@@ -17,12 +17,23 @@
   padding: 1.5rem;
 }
 
+
+@media (min-width: 48rem) {
+  .field__items{
+    flex-wrap: nowrap;
+  }
+}
+
 .partners .field__items {
   margin-left: 1rem;
   width: 80%;
 }
 
 .image-style-large {
-  width: 15.75rem;
-  height: 5rem;
+  width: 100%;
+  height: 100%;
+}
+
+.field__item {
+  padding-left: 2rem;
 }
