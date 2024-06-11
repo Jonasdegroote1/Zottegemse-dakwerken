@@ -5,7 +5,6 @@ inventory_system.inventory:
   parent: system.admin_content
   weight: 0
 
-
 inventory_system.inventory_menu:
   title: 'Inventory Menu'
   description: 'Manage inventory items.'

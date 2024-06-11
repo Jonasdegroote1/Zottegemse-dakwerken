@@ -878,4 +878,12 @@ form {
   background-color: #0056b3;
 }
 
+.field--name-body {
+  padding: 0;
+}
+
+.webform-submission-form .form-actions {
+  text-align: start;
+}
+
 /*# sourceMappingURL=styles.css.map */
