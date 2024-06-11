@@ -15,21 +15,15 @@ form {
   color: map-get($blue, 600 );
 }
 
-.form--wrapper input {
+.form--wrapper input,
+.form--wrapper textarea,
+.form--wrapper input[type=text]{
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid map-get($blue, 600 );
   background-color: map-get($blue, 50 );
-}
-
-.form--wrapper textarea {
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: none;
-  border-bottom: 1px solid map-get($blue, 600 );
-    background-color: map-get($blue, 50 );
-
+  width: 100%;
 }
 
 .form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible{
@@ -55,4 +49,8 @@ form {
     flex-direction: column;
     width: 100%;
   }
+}
+
+.field--name-body {
+  padding: 0;
 }

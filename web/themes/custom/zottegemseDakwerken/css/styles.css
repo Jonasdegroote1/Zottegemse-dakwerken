@@ -608,20 +608,15 @@ form {
   color: #006ed2;
 }
 
-.form--wrapper input {
+.form--wrapper input,
+.form--wrapper textarea,
+.form--wrapper input[type=text] {
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: none;
   border-bottom: 1px solid #006ed2;
   background-color: #eff7ff;
-}
-
-.form--wrapper textarea {
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: none;
-  border-bottom: 1px solid #006ed2;
-  background-color: #eff7ff;
+  width: 100%;
 }
 
 .form--wrapper input:focus-visible, .form--wrapper textarea:focus-visible {
@@ -648,22 +643,47 @@ form {
   width: 100%;
 }
 
+.field--name-body {
+  padding: 0;
+}
+
 .history-block {
   display: flex;
   flex-direction: row;
   gap: 2rem;
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .history-block::after {
   content: "";
   position: absolute;
-  left: 2%;
+  left: 3.25%;
   bottom: 0;
   transform: translateX(-50%);
   width: 2px;
   background-color: #028df5;
   height: 75%;
+}
+@media (min-width: 62rem) {
+  .history-block::after {
+    left: 2.8%;
+  }
+}
+@media (min-width: 70rem) {
+  .history-block::after {
+    left: 2.5%;
+  }
+}
+@media (min-width: 75rem) {
+  .history-block::after {
+    left: 2.2%;
+  }
+}
+@media (min-width: 87rem) {
+  .history-block::after {
+    left: 1.8%;
+  }
 }
 
 .history-block__right {

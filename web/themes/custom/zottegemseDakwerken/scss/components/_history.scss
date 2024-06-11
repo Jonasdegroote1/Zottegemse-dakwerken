@@ -3,17 +3,34 @@
   flex-direction: row;
   gap: 2rem;
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .history-block::after {
   content: '';
   position: absolute;
-  left: 2%;
+  left: 3.25%;
   bottom: 0;
   transform: translateX(-50%);
   width: 2px;
   background-color: map-get($blue, 500 );
   height: 75%;
+
+  @media (min-width: 62rem){
+    left: 2.8%;
+  }
+
+  @media (min-width: 70rem){
+    left: 2.5%;
+  }
+
+  @media (min-width: 75rem){
+    left: 2.2%;
+  }
+
+  @media (min-width: 87rem){
+    left: 1.8%;
+  }
 }
 
 .history-block__right {
