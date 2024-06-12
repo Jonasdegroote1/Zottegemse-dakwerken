@@ -67,6 +67,7 @@ a {
   text-decoration: none;
   transition: background-color 0.3s ease;
   margin: 0;
+  height: max-content;
 
   &:hover {
     background-color: map-get($blue, 700); 

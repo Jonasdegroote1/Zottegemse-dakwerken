@@ -19,6 +19,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h2 {
   color: #004786;
+  font-size: 3rem;
 }
 
 .section-blue, .pin-spacer {
@@ -423,6 +424,7 @@ a {
   text-decoration: none;
   transition: background-color 0.3s ease;
   margin: 0;
+  height: max-content;
 }
 .button:hover {
   background-color: #0057aa;
@@ -748,17 +750,26 @@ form {
   font-weight: 400;
 }
 
+.layout__region:has(.block-job-offer-block) {
+  padding: 1rem;
+  width: 90%;
+}
+
 .job-offer-block {
+  display: flex;
   background-color: #deeeff;
   padding: 20px;
   margin-bottom: 20px;
-  border-bottom: 1px solid #028df5;
+  border-bottom: 4px solid #028df5;
+  justify-content: space-between;
+  border-radius: 0.25rem;
 }
 
-.job-offer-block--top {
+.job-offer__title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 50%;
 }
 
 .block-inline-blockpicture-gallery {
@@ -778,6 +789,12 @@ form {
   height: 3px;
   background-color: #2da8ff;
   margin: 1rem auto;
+}
+@media (min-width: 94rem) {
+  .layout__region:has(.block-inline-blockpicture-gallery)::before,
+  .layout__region:has(.block-inline-blockpicture-gallery)::after {
+    width: 100%;
+  }
 }
 
 .partners .field {
@@ -850,11 +867,16 @@ form {
   flex-direction: column;
   align-items: start;
 }
-.footer-top__contact p {
-  align-items: start;
+.footer-top__contact a {
   margin: 0;
   margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #deeeff;
+}
+.footer-top__contact a img {
+  margin-right: 1rem;
 }
 
 .footer-top__menu {

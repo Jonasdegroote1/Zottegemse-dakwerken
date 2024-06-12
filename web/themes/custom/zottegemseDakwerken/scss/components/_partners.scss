@@ -17,6 +17,10 @@
   height: 3px;
   background-color: map-get($blue, 400);
   margin: 1rem auto;
+
+  @media (min-width: 94rem ){
+    width: 100%;
+  }
 }
 
 .partners .field {

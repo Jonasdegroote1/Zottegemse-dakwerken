@@ -32,11 +32,17 @@
   flex-direction: column;
   align-items: start;
 
-  p {
-    align-items: start;
+  a {
     margin: 0;
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: map-get($blue, 100 );
+
+    img {
+      margin-right: 1rem;
+    }
   }
 }
 

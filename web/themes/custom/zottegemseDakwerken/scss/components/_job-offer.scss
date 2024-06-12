@@ -1,12 +1,21 @@
+.layout__region:has(.block-job-offer-block) {
+  padding: 1rem;
+  width: 90%;
+}
+
 .job-offer-block {
+  display: flex;
   background-color: map-get( $blue , 100 );
   padding: 20px;
   margin-bottom: 20px;
-  border-bottom: 1px solid map-get( $blue , 500 );
+  border-bottom: 4px solid map-get( $blue , 500 );
+  justify-content: space-between;
+  border-radius: .25rem;
 }
 
-.job-offer-block--top {
+.job-offer__title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 50%;
 }
