@@ -334,7 +334,6 @@ h2 {
   transform: translateX(-50%);
   margin-top: 20px;
   text-align: center;
-  color: #fff;
   animation: arrowBounce 1.5s infinite alternate;
 }
 
@@ -357,8 +356,8 @@ h2 {
   display: block;
   width: 20px;
   height: 20px;
-  border-left: 5px solid #fff;
-  border-bottom: 5px solid #fff;
+  border-left: 5px solid #76c4ff;
+  border-bottom: 5px solid #76c4ff;
   transform: rotate(-45deg);
   margin: 0 auto;
 }
