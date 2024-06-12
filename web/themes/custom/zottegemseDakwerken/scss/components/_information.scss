@@ -28,8 +28,8 @@
   
   @media (min-width: 48rem){
     display: flex;
-    padding: 2rem;
-    min-height: 35rem;
+    padding: 5rem 2rem;
+    max-height: 35rem;
 
     .info-block__content, 
     .info-block__image {

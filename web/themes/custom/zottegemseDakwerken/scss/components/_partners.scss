@@ -2,8 +2,22 @@
   width: 90%;
   
   h2 {
+    text-align: center;
     padding-left: 3rem;
+    font-size: 3rem;
   }
+}
+
+.block-inline-blockpicture-gallery::before,
+.block-inline-blockpicture-gallery::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: map-get($blue, 400);
+  margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .partners .field {
