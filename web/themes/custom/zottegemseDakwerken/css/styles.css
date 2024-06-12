@@ -943,7 +943,7 @@ form {
 }
 
 .user-login-form .form-item input[type=text],
-.user-login-form .form-item inpu t[type=password] {
+.user-login-form .form-item input[type=password] {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
