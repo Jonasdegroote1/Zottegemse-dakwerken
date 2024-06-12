@@ -2,27 +2,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const hamburger = document.getElementById('hamburger');
   const navContainer = document.getElementById('main-nav');
   const expandedItems = document.querySelectorAll('.nav-item--expanded');
-  const closeBtn = document.getElementById('close-btn');
 
-  hamburger.addEventListener('click', function() {
-    navContainer.classList.toggle('active');
-    hamburger.classList.toggle('active');
+  // Check if elements exist before adding event listeners
+  if (!hamburger) {
+    console.error('Element with id "hamburger" not found.');
+  }
 
-    expandedItems.forEach(function(item) {
-      if (navContainer.classList.contains('active')) {
-        item.querySelector('.nav').style.display = 'block';
-      } else {
-        item.querySelector('.nav').style.display = 'none';
-      }
+  if (!navContainer) {
+    console.error('Element with id "main-nav" not found.');
+  }
+
+  if (hamburger && navContainer) {
+    hamburger.addEventListener('click', function() {
+      navContainer.classList.toggle('active');
+      hamburger.classList.toggle('active');
+
+      expandedItems.forEach(function(item) {
+        const nav = item.querySelector('.nav');
+        if (nav) {
+          nav.style.display = navContainer.classList.contains('active') ? 'block' : 'none';
+        } else {
+          console.error('Element with class "nav" not found in expanded item:', item);
+        }
+      });
     });
-  });
-
-  closeBtn.addEventListener('click', function() {
-    navContainer.classList.remove('active');
-    hamburger.classList.remove('active');
-
-    expandedItems.forEach(function(item) {
-      item.querySelector('.nav').style.display = 'none';
-    });
-  });
+  } else {
+    console.error('One or more required elements are missing.');
+  }
 });
