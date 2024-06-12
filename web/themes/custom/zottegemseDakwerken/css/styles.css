@@ -241,22 +241,30 @@ h2 {
   display: block;
 }
 
-/* Add the hover effect for expanded items at min-width: 48rem */
 @media (min-width: 48rem) {
-  .nav-item--expanded:hover .nav {
-    display: block;
+  .nav-item--expanded .nav {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    display: block; /* Ensure it's not display:none */
     position: absolute;
     top: 100%;
     background-color: #073e73; /* example color */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     height: auto;
     margin: 0;
+    transition: max-height 0.9s ease, opacity 0.9s ease;
   }
-  .nav-item--expanded:hover .nav .nav-item {
+  .nav-item--expanded:hover .nav {
+    max-height: 500px; /* Set this to a value that will accommodate the full height of the dropdown */
+    opacity: 1;
+  }
+  .nav-item {
     padding: 1rem;
     margin: 0;
+    transition: background-color 0.3s ease; /* Smooth transition */
   }
-  .nav-item--expanded:hover .nav .nav-item:hover {
+  .nav-item:hover {
     background-color: #0057aa;
   }
 }
