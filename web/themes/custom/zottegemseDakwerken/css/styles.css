@@ -270,7 +270,7 @@ h2 {
 }
 .hero-block {
   position: relative;
-  height: calc(100vh - 5rem);
+  height: 100svh;
   background-size: cover;
   background-position: center;
   color: #eff7ff;
@@ -281,7 +281,7 @@ h2 {
 }
 @media (min-width: 48rem) {
   .hero-block {
-    height: calc(100vh - 5rem);
+    height: 100svh;
   }
 }
 

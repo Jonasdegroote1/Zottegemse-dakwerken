@@ -1,6 +1,6 @@
 .hero-block {
   position: relative;
-  height: calc(100vh - 5rem); 
+  height: 100svh; 
   background-size: cover;
   background-position: center;
   color: map-get($blue, 50 );
@@ -10,7 +10,7 @@
   justify-content: center;
 
   @media (min-width: 48rem ){
-    height: calc(100vh - 5rem); 
+    height: 100svh;
   }
 }
 
