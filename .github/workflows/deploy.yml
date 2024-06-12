@@ -20,4 +20,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./ # The directory of your code on GitHub
-        server-dir: /path/on/server # The directory on your Combell server
+        server-dir: /www # The directory on your Combell server
