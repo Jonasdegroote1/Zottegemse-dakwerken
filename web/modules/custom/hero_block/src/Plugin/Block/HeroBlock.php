@@ -35,7 +35,7 @@ public function build() {
     $site_name = \Drupal::config('system.site')->get('name');
 
     if ($is_front_page) {
-        $title = "Welcome to " . $site_name;
+        $title = "Welkom bij " . $site_name;
     } else if ($node instanceof \Drupal\node\NodeInterface) {
         $title = $node->getTitle();
     }

@@ -886,6 +886,9 @@ form {
 .footer-top__contact a img {
   margin-right: 1rem;
 }
+.footer-top__contact a:hover {
+  color: #2da8ff;
+}
 
 .footer-top__menu {
   list-style: none;
