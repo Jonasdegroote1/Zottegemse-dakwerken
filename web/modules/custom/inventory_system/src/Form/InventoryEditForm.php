@@ -83,8 +83,11 @@ class InventoryEditForm extends FormBase {
         ];
 
         $form['location'] = [
-          '#type' => 'textfield',
+          '#type' => 'select',
           '#title' => $this->t('Location'),
+          '#options' => [
+            'magazijn' => $this->t('Magazijn'),
+          ],
           '#default_value' => $item['location'],
           '#required' => TRUE,
         ];
@@ -107,15 +110,13 @@ class InventoryEditForm extends FormBase {
           '#type' => 'submit',
           '#value' => $this->t('Save Changes'),
         ];
-      }
-      else {
+      } else {
         // Item not found, display error message.
         $form['error'] = [
           '#markup' => $this->t('Item not found.'),
         ];
       }
-    }
-    else {
+    } else {
       // No item ID provided, display error message.
       $form['error'] = [
         '#markup' => $this->t('No item ID provided.'),
@@ -144,7 +145,7 @@ class InventoryEditForm extends FormBase {
       ->condition('item_id', $item_id)
       ->execute();
 
-    // Optionally, you can add a message to indicate successful update.
+    // Optionally, you can add a message to indicate a successful update.
     \Drupal::messenger()->addMessage($this->t('Item has been updated successfully.'));
 
     // Redirect the user to a page or URL after saving the changes.
@@ -152,4 +153,3 @@ class InventoryEditForm extends FormBase {
   }
 
 }
-

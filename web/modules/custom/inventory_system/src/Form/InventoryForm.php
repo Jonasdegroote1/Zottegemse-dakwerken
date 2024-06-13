@@ -69,8 +69,11 @@ class InventoryForm extends FormBase {
       '#required' => TRUE,
     ];
     $form['location'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Location'),
+      '#options' => [
+        'magazijn' => $this->t('Magazijn'),
+      ],
       '#required' => TRUE,
     ];
     $form['category'] = [
@@ -91,23 +94,23 @@ class InventoryForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // Get form values
-      $item_name = $form_state->getValue('item_name');
-      $description = $form_state->getValue('description');
-      $quantity = $form_state->getValue('quantity');
-      $location = $form_state->getValue('location');
-      $category = $form_state->getValue('category');
+    $item_name = $form_state->getValue('item_name');
+    $description = $form_state->getValue('description');
+    $quantity = $form_state->getValue('quantity');
+    $location = $form_state->getValue('location');
+    $category = $form_state->getValue('category');
 
-      // Insert data into 'items' table
-      $connection = \Drupal::database();
-      $item_id = $connection->insert('items')
-        ->fields([
-          'title' => $item_name,
-          'description' => $description,
-          'quantity' => $quantity,
-          'location' => $location,
-          'category_id' => $category,
-        ])
-        ->execute();
+    // Insert data into 'items' table
+    $connection = \Drupal::database();
+    $item_id = $connection->insert('items')
+      ->fields([
+        'title' => $item_name,
+        'description' => $description,
+        'quantity' => $quantity,
+        'location' => $location,
+        'category_id' => $category,
+      ])
+      ->execute();
 
     \Drupal::messenger()->addMessage($this->t('Inventory item added successfully.'));
     // Redirect to the inventory list page.
