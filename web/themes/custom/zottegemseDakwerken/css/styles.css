@@ -19,7 +19,12 @@ h1, h2, h3, h4, h5, h6 {
 
 h2 {
   color: #004786;
-  font-size: 3rem;
+  font-size: 2rem;
+}
+@media (min-width: 768px) {
+  h2 {
+    font-size: 3rem;
+  }
 }
 
 .section-blue, .pin-spacer {
@@ -770,13 +775,32 @@ form {
   border-bottom: 4px solid #028df5;
   justify-content: space-between;
   border-radius: 0.25rem;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .job-offer-block {
+    flex-direction: row;
+    gap: 1rem;
+  }
 }
 
 .job-offer__title {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .job-offer__title {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    gap: 1rem;
+  }
+}
+
+.job-offer__link {
+  display: flex;
   align-items: center;
-  width: 50%;
 }
 
 .block-inline-blockpicture-gallery {
