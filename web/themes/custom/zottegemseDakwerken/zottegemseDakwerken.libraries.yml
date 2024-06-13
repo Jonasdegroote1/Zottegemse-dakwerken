@@ -18,3 +18,9 @@ gsap:
   js:
     https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js: { type: external, minified: true }
     https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js: { type: external, minified: true }
+
+iubenda:
+  js:
+    js/cookies/iubenda.js: {}
+  dependencies:
+    - core/jquery
