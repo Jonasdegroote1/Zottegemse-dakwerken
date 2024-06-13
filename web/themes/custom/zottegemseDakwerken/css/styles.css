@@ -468,10 +468,6 @@ a {
 }
 
 .block-card-block .card {
-  background-color: #e3f2fd; /* Example color for map-get($blue, 50) */
-  border-radius: 0.25rem;
-  min-height: 17rem;
-  min-width: 15rem;
   transition: transform 0.6s, box-shadow 0.6s, opacity 0.6s;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
