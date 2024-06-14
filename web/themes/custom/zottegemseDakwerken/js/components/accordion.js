@@ -1,4 +1,5 @@
 (function ($) {
+  console.log("accordion");
   Drupal.behaviors.accordion = {
     attach: function (context, settings) {
       // Ensure the accordion functionality is applied only once

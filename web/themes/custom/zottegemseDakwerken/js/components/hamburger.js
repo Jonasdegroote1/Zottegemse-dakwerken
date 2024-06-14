@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  console.log("hamburger");
   const hamburger = document.getElementById('hamburger');
   const navContainer = document.getElementById('main-nav');
   const expandedItems = document.querySelectorAll('.nav-item--expanded');

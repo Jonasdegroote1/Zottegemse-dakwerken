@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   const elements = document.querySelectorAll('[data-animation="fade-in"]');
-  
+  consolelog("elements");
   elements.forEach(element => {
     const delay = parseFloat(element.dataset.delay) || 0.5;
 

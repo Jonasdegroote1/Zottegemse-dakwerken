@@ -1,6 +1,6 @@
 const horizontalScroll = () => {
     const triggers = document.querySelectorAll("[data-animation='horizontal-scroll']");
-
+console.log("triggers");
     triggers.forEach((trigger) => {
         const horizontalScrollContainer = trigger.querySelector("[data-child='horizontal-scroll']");
         const innerElements = horizontalScrollContainer.querySelectorAll(".block-card-block");
