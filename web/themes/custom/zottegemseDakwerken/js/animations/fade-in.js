@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
   const elements = document.querySelectorAll('[data-animation="fade-in"]');
+  console.log('GSAP Loaded:', typeof gsap !== 'undefined');
   elements.forEach(element => {
-    const delay = parseFloat(element.dataset.delay) || 0;
+    const delay = parseFloat(element.dataset.delay) || 0.5;
 
     gsap.from(element, {
       opacity: 0,
