@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   const elements = document.querySelectorAll('[data-animation="slide-in"]');
+  console.log('GSAP Loaded:', typeof gsap !== 'undefined');
   elements.forEach(element => {
     const delay = parseFloat(element.dataset.delay) || 0.5;
 

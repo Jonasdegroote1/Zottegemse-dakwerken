@@ -18,6 +18,8 @@ global-js:
     js/animations/horizontal-scroll.js: {}
     js/animations/slide-in.js: {}
     js/components/hamburger.js: {}
+  dependencies:
+    - zottegemseDakwerken/gsap
 
 iubenda:
   js:
