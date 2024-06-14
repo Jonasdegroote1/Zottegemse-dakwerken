@@ -18,7 +18,7 @@ settings:
 
 
 libraries:
-  - zottegemseDakwerken/global-css
   - zottegemseDakwerken/gsap
+  - zottegemseDakwerken/global-css
   - zottegemseDakwerken/global-js
   - zottegemseDakwerken/iubenda
