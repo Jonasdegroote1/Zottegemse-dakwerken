@@ -407,6 +407,7 @@ a {
   padding: 1.5rem;
   min-height: 5rem;
   opacity: 1;
+  background-color: transparent;
 }
 .icon-card img {
   padding-left: 1.5rem;
@@ -994,6 +995,11 @@ form {
 
 .webform-submission-form .form-actions {
   text-align: start;
+}
+
+.iub__us-widget {
+  color: #04274d;
+  background-color: #073e73;
 }
 
 /*# sourceMappingURL=styles.css.map */
