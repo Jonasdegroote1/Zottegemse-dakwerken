@@ -41,7 +41,6 @@ class VehicleController extends ControllerBase {
    * List all vehicles.
    */
   public function listItems() {
-    // Select the vehicle names and ids from the custom database table.
     $connection = Database::getConnection();
     $query = $connection->select('vehicles', 'v')
       ->fields('v', ['name', 'vehicle_id'])
@@ -113,7 +112,6 @@ class VehicleController extends ControllerBase {
    */
 
   public function deleteVehicle($vid) {
-    // Delete the vehicle from the custom database table.
     $connection = Database::getConnection();
     $query = $connection->delete('vehicles')
       ->condition('vehicle_id', $vid)
@@ -121,7 +119,6 @@ class VehicleController extends ControllerBase {
 
     $this->messenger->addMessage($this->t('The vehicle has been deleted.'));
 
-    // Redirect to the vehicle list page after deleting the vehicle.
     return $this->redirect('inventory_system.vehicles_list');
   }
 

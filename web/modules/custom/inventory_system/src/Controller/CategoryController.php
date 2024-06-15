@@ -123,10 +123,8 @@ class CategoryController extends ControllerBase {
    *   The term ID of the category to delete.
    */
   public function deleteCategory($tid) {
-    // Convert the $tid parameter to an integer if necessary
     $tid = (int) $tid;
 
-    // Delete the category from the database table
     $query = \Drupal::database()->delete('categories')
       ->condition('category_id', $tid)
       ->execute();

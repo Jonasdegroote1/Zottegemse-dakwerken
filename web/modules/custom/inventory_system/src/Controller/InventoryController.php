@@ -52,42 +52,34 @@ class InventoryController extends ControllerBase {
    * Displays a list of inventory items.
    */
   public function listItems() {
-    // Fetch items from the database table.
     $query = $this->database->select('items', 'i')
       ->fields('i', ['item_id', 'title', 'description', 'quantity', 'location', 'category_id'])
       ->orderBy('category_id');
 
-    // Execute the query and fetch results.
     $results = $query->execute()->fetchAll();
 
-    // Initialize an array to hold items grouped by category.
     $items_by_category = [];
 
     foreach ($results as $item) {
-      // Fetch category name based on category_id.
       $category_name = $this->getCategoryName($item->category_id);
 
-      // Add the item to the respective category.
       $items_by_category[$category_name][] = [
         'item_id' => $item->item_id,
         'item_name' => $item->title,
         'description' => $item->description,
         'quantity' => $item->quantity,
         'location' => $item->location,
-        // Include other fields as needed.
       ];
     }
 
-    // Render items grouped by category.
     $rows = [];
 
     foreach ($items_by_category as $category_name => $items) {
-      // Render category title.
       $rows[] = [
         'data' => [
           'item_name' => [
             'data' => $category_name,
-            'colspan' => 5, // Adjust colspan based on the number of columns.
+            'colspan' => 5,
           ],
         ],
         'class' => ['category-row', 'category-name'],
@@ -108,7 +100,6 @@ class InventoryController extends ControllerBase {
             'description' => $item['description'],
             'quantity' => $item['quantity'],
             'location' => $item['location'],
-            // Include other fields as needed.
             'operations' => [
               'data' => [
                 '#type' => 'operations',
@@ -187,7 +178,6 @@ class InventoryController extends ControllerBase {
       'quantity' => $this->t('Quantity'),
       'location' => $this->t('Location'),
       'operations' => $this->t('Operations'),
-      // Include other fields as needed.
     ];
   }
 
@@ -195,8 +185,6 @@ class InventoryController extends ControllerBase {
    * Helper function to fetch category name based on category ID.
    */
   private function getCategoryName($category_id) {
-    // Fetch category name from the 'categories' table based on category_id.
-    // Adjust this query based on your actual database schema.
     $category_name = $this->database->select('categories', 'c')
       ->fields('c', ['title'])
       ->condition('c.category_id', $category_id)
@@ -223,7 +211,6 @@ class InventoryController extends ControllerBase {
    *   The ID of the item to delete.
    */
   public function deleteItem($item_id) {
-    // Check if the item exists.
     $item_exists = $this->database->select('items', 'i')
       ->fields('i', ['item_id'])
       ->condition('item_id', $item_id)
@@ -233,7 +220,6 @@ class InventoryController extends ControllerBase {
 
     if ($item_exists) {
         try {
-            // Delete the item from the items table.
             $this->database->delete('items')
                 ->condition('item_id', $item_id)
                 ->execute();
@@ -246,7 +232,6 @@ class InventoryController extends ControllerBase {
         $this->messenger->addError($this->t('Invalid item ID.'));
     }
     
-    // Redirect to the listing page after deletion.
     return $this->redirect('inventory_system.list');
   }
 }
