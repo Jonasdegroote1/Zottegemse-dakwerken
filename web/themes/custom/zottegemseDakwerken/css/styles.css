@@ -806,8 +806,15 @@ form {
 .block-inline-blockpicture-gallery h2 {
   text-align: center;
   padding-left: 3rem;
-  font-size: 3rem;
+  font-size: 2rem;
 }
+
+@media (min-width: 48rem) {
+  .block-inline-blockpicture-gallery h2 {
+    font-size: 3rem;
+  }
+}
+
 
 .layout__region:has(.block-inline-blockpicture-gallery)::before,
 .layout__region:has(.block-inline-blockpicture-gallery)::after {
